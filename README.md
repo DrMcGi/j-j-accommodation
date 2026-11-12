@@ -21,18 +21,25 @@ npm run build
 - **Overnight:** R850 per night
 - **Bachelor:** R7,500 per month
 - **Two bedroom:** R13,500 per month
-- **Services:** Daily cleaning, fully furnished accommodation, free Wi-Fi, and 24/7 security
+- **Services:** Daily cleaning, fully furnished accommodation, free Wi-Fi, 24/7 security, electricity included, and solar backup to help during load-shedding
+- **Setting:** A quiet farm environment
 - **Check-in:** 13:00
 - **Check-out:** 10:00
 - **Address:** 336KT Grootboom Farm, Corner Lannex R555, Steelpoort 1133
 - **Booking:** 068 550 6349 · 081 868 8418 · 013 541 1008
 - **Email:** [jjgrootboom405@gmail.com](mailto:jjgrootboom405@gmail.com)
 
-The website's rates and contact options link directly to WhatsApp, phone, email, and map directions. No availability, room-specific amenity, or policy details are assumed.
+The map directions open the property's pinned coordinates, separate from the written address above. Nearby-area links include KFC on the R555, Steelpoort Town, Tubatse Crossing in Burgersfort, Tubatse Chrome Club, Thaba Moshate Casino, and directions to Dwarsrivier Chrome Mine, Two Rivers Platinum Mine, and Mototolo Mine. Drive estimates are approximate and vary with route and traffic; confirm venue access and opening details before visiting.
 
-## Video handoff
+Local venue references: [Tubatse Crossing](https://tubatsecrossingshopping.co.za/), [Tubatse Chrome Club course profile](https://www.hole19golf.com/courses/tubatse-chrome-club), and [Thaba Moshate Casino Resort](https://www.peermont.com/properties/thaba-moshate/). Rates and contact options link directly to WhatsApp, phone, email, and map directions. No availability, room-specific amenity, or policy details are assumed.
 
-The room-tour section uses selected farm and accommodation photos, a bedroom still from `grootboom-farm-video.MOV`, and a short, optimized living-area preview from `IMG_4532.MOV` at `public/videos/living-area-preview.mp4`. No upload was named `vid.mov`, so the 5:51 `grootboom-farm-video.MOV` was treated as the requested scenery/room-tour source. The original HEIC and MOV uploads remain unchanged in `public/images/`; optimized WebP copies are in `public/images/media/`. This is a photo/video preview, not an interactive 3D or 360° tour. Add future web-ready clips under `public/videos/` and use accessible `<video controls playsInline preload="none">` elements with poster images. Do not serve or commit the multi-gigabyte camera originals; use a suitable media host for larger videos or 3D assets.
+Google Business Profile setup is a future task and will require the owner's Google account access and business verification.
+
+## Scroll-driven room tour
+
+The room-tour section maps page scroll position to a curated 328-frame sequence from `grootboom-farm-video.MOV`, rendered into a canvas. Scrolling forward moves through the recorded walkthrough; scrolling backward revisits earlier frames. The WebP frames are sampled at one frame per second and stored in `public/images/tour-sequence/`, then loaded on demand. Reduced-motion preferences show a static poster instead.
+
+No upload was named `vid.mov`; the 5:51 `grootboom-farm-video.MOV` was treated as the intended scenery/room-tour source. This is a scroll-controlled view along the camera's recorded path, not free-look 3D or a 360° tour. The original HEIC and MOV uploads remain local and are ignored by Git; the website uses optimized WebP assets.
 
 ## Logo assets
 

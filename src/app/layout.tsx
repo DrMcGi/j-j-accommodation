@@ -7,12 +7,12 @@ export const metadata: Metadata = {
     template: "%s | J & J Grootboom Farm Accommodation",
   },
   description:
-    "Overnight and monthly furnished accommodation at Grootboom Farm in Steelpoort, Limpopo. Daily cleaning, free Wi-Fi, and 24/7 security.",
+    "Overnight and monthly furnished accommodation at Grootboom Farm in Steelpoort, Limpopo. Daily cleaning, free Wi-Fi, 24/7 security, electricity included, and solar backup.",
   applicationName: "J & J Grootboom Farm Accommodation",
   openGraph: {
     title: "J & J Grootboom Farm Accommodation",
     description:
-      "A warm, furnished place to settle in at Grootboom Farm, Steelpoort.",
+      "A peaceful farm stay in Steelpoort with furnished accommodation, daily cleaning, free Wi-Fi, and solar backup.",
     type: "website",
     locale: "en_ZA",
   },

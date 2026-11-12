@@ -1,16 +1,18 @@
 import Image from "next/image";
+import ScrollTour from "./scroll-tour";
 
 type IconName =
   | "arrow"
   | "bed"
   | "calendar"
-  | "camera"
   | "check"
   | "clock"
   | "mail"
+  | "moon"
   | "pin"
   | "shield"
   | "sparkles"
+  | "sun"
   | "wifi";
 
 function Icon({
@@ -38,12 +40,6 @@ function Icon({
         <path d="M16 3v4M8 3v4M3 11h18" />
       </>
     ),
-    camera: (
-      <>
-        <path d="M14 5h-4l-2 2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2-2Z" />
-        <circle cx="12" cy="13" r="3.5" />
-      </>
-    ),
     check: <path d="m5 12 4 4L19 6" />,
     clock: (
       <>
@@ -57,6 +53,7 @@ function Icon({
         <path d="m3 7 9 6 9-6" />
       </>
     ),
+    moon: <path d="M20.9 13A9 9 0 0 1 11 3.1 9 9 0 1 0 20.9 13Z" />,
     pin: (
       <>
         <path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z" />
@@ -72,6 +69,12 @@ function Icon({
     sparkles: (
       <>
         <path d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3ZM19 14l1.1 2.9L23 18l-2.9 1.1L19 22l-1.1-2.9L15 18l2.9-1.1L19 14ZM5 2l.8 2.2L8 5l-2.2.8L5 8l-.8-2.2L2 5l2.2-.8L5 2Z" />
+      </>
+    ),
+    sun: (
+      <>
+        <circle cx="12" cy="12" r="4" />
+        <path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42" />
       </>
     ),
     wifi: (
@@ -121,6 +124,18 @@ const services = [
     title: "Security, day and night",
     description:
       "24/7 security helps you feel at ease, at any time of day.",
+  },
+  {
+    icon: "sun",
+    title: "Electricity included",
+    description:
+      "Electricity is included, with solar backup to help keep you powered during load-shedding.",
+  },
+  {
+    icon: "moon",
+    title: "A peaceful farm setting",
+    description:
+      "Enjoy a quiet stay at Grootboom Farm, away from the bustle of town.",
   },
 ] as const;
 
@@ -173,7 +188,33 @@ const contactNumbers = [
 ];
 
 const address = "336KT Grootboom Farm, Corner Lannex R555, Steelpoort 1133";
-const directionsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
+const propertyCoordinates = "-24.759645,30.1716586";
+
+function directionsFromProperty(destination: string) {
+  const params = new URLSearchParams({
+    api: "1",
+    origin: propertyCoordinates,
+    destination,
+    travelmode: "driving",
+  });
+  return `https://www.google.com/maps/dir/?${params.toString()}`;
+}
+
+const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(propertyCoordinates)}`;
+const nearbyMines = [
+  {
+    name: "Dwarsrivier Chrome Mine",
+    href: directionsFromProperty("Dwarsrivier Chrome Mine, Limpopo, South Africa"),
+  },
+  {
+    name: "Two Rivers Platinum Mine",
+    href: directionsFromProperty("Two Rivers Platinum Mine, Limpopo, South Africa"),
+  },
+  {
+    name: "Mototolo Mine",
+    href: directionsFromProperty("Mototolo Mine, Limpopo, South Africa"),
+  },
+];
 const bookingUrl =
   "https://wa.me/27685506349?text=Hello%2C%20I%20would%20like%20to%20enquire%20about%20booking%20accommodation.";
 
@@ -415,80 +456,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section aria-labelledby="tour-title" className="tour-section section-space" id="tour">
-          <div className="page-shell">
-            <div className="tour-card">
-              <div className="tour-intro">
-                <div className="tour-copy">
-                  <p className="eyebrow eyebrow-green">
-                    <Icon name="camera" /> A CLOSER LOOK
-                  </p>
-                  <h2 id="tour-title">
-                    See where
-                    <br />
-                    you’ll settle in.
-                  </h2>
-                  <p>
-                    Browse a few views of the furnished spaces and farm. This
-                    short clip is an early look; more detailed room and scenery
-                    tours can be added as they become available.
-                  </p>
-                  <span className="tour-status">
-                    <span className="status-dot" />
-                    Photos and a first video preview
-                  </span>
-                </div>
-              </div>
-              <div className="tour-media-grid">
-                <figure className="tour-video-card">
-                  <video
-                    aria-label="Short video preview of the furnished living area"
-                    controls
-                    playsInline
-                    poster="/images/media/accommodation-lounge.webp"
-                    preload="none"
-                  >
-                    <source src="/videos/living-area-preview.mp4" type="video/mp4" />
-                    Your browser does not support embedded video.
-                  </video>
-                  <figcaption>Living area video preview</figcaption>
-                </figure>
-                <div aria-label="Accommodation and farm photos" className="tour-photo-grid">
-                  <figure className="tour-photo">
-                    <Image
-                      alt="Paved courtyard between the accommodation buildings"
-                      height={900}
-                      sizes="(max-width: 680px) 42vw, (max-width: 1000px) 25vw, 20vw"
-                      src="/images/media/farm-courtyard.webp"
-                      width={900}
-                    />
-                    <figcaption>Farm courtyard</figcaption>
-                  </figure>
-                  <figure className="tour-photo">
-                    <Image
-                      alt="Furnished kitchen and dining area"
-                      height={900}
-                      sizes="(max-width: 680px) 42vw, (max-width: 1000px) 25vw, 20vw"
-                      src="/images/media/accommodation-kitchen.webp"
-                      width={900}
-                    />
-                    <figcaption>Kitchen and dining area</figcaption>
-                  </figure>
-                  <figure className="tour-photo">
-                    <Image
-                      alt="Furnished bedroom shown in a frame from the accommodation video"
-                      height={900}
-                      sizes="(max-width: 680px) 42vw, (max-width: 1000px) 25vw, 20vw"
-                      src="/images/media/accommodation-bedroom-video-frame.webp"
-                      width={900}
-                    />
-                    <figcaption>Bedroom from the video tour</figcaption>
-                  </figure>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        <ScrollTour />
 
         <section aria-labelledby="location-title" className="location-section section-space" id="location">
           <div className="page-shell location-grid">
@@ -502,8 +470,9 @@ export default function Home() {
                 <span>at Grootboom Farm.</span>
               </h2>
               <p className="location-description">
-                We’re in Steelpoort, Limpopo. Open the map for directions to
-                the farm.
+                We’re in Steelpoort, Limpopo. Directions open the property’s
+                pinned map location; our supplied address is shown separately
+                below.
               </p>
               <a
                 className="button button-light location-map-link"
@@ -578,6 +547,167 @@ export default function Home() {
               </a>
             </div>
           </div>
+
+          <section
+            aria-labelledby="nearby-title"
+            className="nearby-section page-shell"
+          >
+            <div className="nearby-heading">
+              <div>
+                <p className="eyebrow eyebrow-light">AROUND THE AREA</p>
+                <h3 id="nearby-title">
+                  Local essentials and places worth exploring.
+                </h3>
+              </div>
+              <p className="nearby-note">
+                Drive distances and times are estimates; routes and traffic can
+                change.
+              </p>
+            </div>
+
+            <div className="nearby-grid">
+              <article className="nearby-card">
+                <span className="nearby-category">FOOD &amp; TAKEAWAYS</span>
+                <h4>KFC on the R555</h4>
+                <p>About 5 km away — roughly 6–8 minutes by car.</p>
+                <a
+                  className="nearby-link"
+                  href={directionsFromProperty("-24.732604,30.2058304")}
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  Directions from the property <Icon name="arrow" />
+                </a>
+              </article>
+
+              <article className="nearby-card">
+                <span className="nearby-category">LOCAL SHOPPING</span>
+                <h4>Steelpoort Town</h4>
+                <p>Local shopping, food stops and everyday services nearby.</p>
+                <a
+                  className="nearby-link"
+                  href={directionsFromProperty(
+                    "Steelpoort Town, Limpopo, South Africa",
+                  )}
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  Directions from the property <Icon name="arrow" />
+                </a>
+              </article>
+
+              <article className="nearby-card">
+                <span className="nearby-category">
+                  BURGERSFORT · SHOPPING &amp; ENTERTAINMENT
+                </span>
+                <h4>Tubatse Crossing</h4>
+                <p>
+                  Burgersfort is about 22 km away, roughly 23 minutes by road.
+                  The centre has 90+ stores, restaurants and entertainment.
+                </p>
+                <div className="nearby-actions">
+                  <a
+                    className="nearby-link"
+                    href={directionsFromProperty(
+                      "Tubatse Crossing Shopping Centre, Burgersfort, Limpopo, South Africa",
+                    )}
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    Get directions <Icon name="arrow" />
+                  </a>
+                  <a
+                    className="nearby-link"
+                    href="https://tubatsecrossingshopping.co.za/"
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    Centre information <Icon name="arrow" />
+                  </a>
+                </div>
+              </article>
+
+              <article className="nearby-card">
+                <span className="nearby-category">GOLF &amp; OUTDOORS</span>
+                <h4>Tubatse Chrome Club</h4>
+                <p>
+                  An 18-hole woodland golf course with a clubhouse, restaurant,
+                  pool and other sports facilities. Check visitor access before
+                  you go.
+                </p>
+                <div className="nearby-actions">
+                  <a
+                    className="nearby-link"
+                    href={directionsFromProperty(
+                      "Tubatse Chrome Club, Steelpoort, Limpopo, South Africa",
+                    )}
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    Get directions <Icon name="arrow" />
+                  </a>
+                  <a
+                    className="nearby-link"
+                    href="https://www.hole19golf.com/courses/tubatse-chrome-club"
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    Course information <Icon name="arrow" />
+                  </a>
+                </div>
+              </article>
+
+              <article className="nearby-card">
+                <span className="nearby-category">
+                  CASINO &amp; ENTERTAINMENT
+                </span>
+                <h4>Thaba Moshate</h4>
+                <p>
+                  A casino resort in Burgersfort with restaurants, a spa and
+                  entertainment. About 18 km, or 20–25 minutes by road.
+                </p>
+                <div className="nearby-actions">
+                  <a
+                    className="nearby-link"
+                    href={directionsFromProperty("-24.6669325,30.3029736")}
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    Get directions <Icon name="arrow" />
+                  </a>
+                  <a
+                    className="nearby-link"
+                    href="https://www.peermont.com/properties/thaba-moshate/"
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    Resort information <Icon name="arrow" />
+                  </a>
+                </div>
+              </article>
+
+              <article className="nearby-card nearby-mines-card">
+                <span className="nearby-category">WORK &amp; INDUSTRY</span>
+                <h4>Nearby mining operations</h4>
+                <p>
+                  Explore the Steelpoort-area chrome and platinum mining
+                  corridor.
+                </p>
+                <div className="nearby-mine-links">
+                  {nearbyMines.map((mine) => (
+                    <a
+                      href={mine.href}
+                      key={mine.name}
+                      rel="noreferrer"
+                      target="_blank"
+                    >
+                      {mine.name} <Icon name="arrow" />
+                    </a>
+                  ))}
+                </div>
+              </article>
+            </div>
+          </section>
         </section>
       </main>
 

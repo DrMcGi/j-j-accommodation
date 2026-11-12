@@ -22,7 +22,8 @@ This file is the durable project handoff. Update it when work is completed so th
   - Overnight: R850
   - Monthly bachelor: R7,500
   - Monthly two-bedroom: R13,500
-  - Services: daily cleaning, furnished accommodation, free Wi-Fi, 24/7 security
+  - Services: daily cleaning, furnished accommodation, free Wi-Fi, 24/7 security, electricity included, solar backup during load-shedding
+  - Setting: quiet farm environment
   - Check-in: 13:00; check-out: 10:00
   - Booking phones: 068 550 6349, 081 868 8418, 013 541 1008
   - Email: jjgrootboom405@gmail.com
@@ -30,24 +31,36 @@ This file is the durable project handoff. Update it when work is completed so th
 ## In progress
 
 - [x] Replace the Next.js starter landing page with a complete, responsive accommodation website.
-- [x] Add original local visual assets and clear placeholders for the owner's future room/scenery videos.
+- [x] Add optimized local photo assets and logo artwork.
 - [x] Add working booking/contact links and clear directions/address information without inventing property facts.
 - [x] Run lint and a production build; review desktop and mobile rendering in a browser.
 - [x] Remove unused Next.js sample artwork and replace the starter favicon with J & J branding.
 - [x] Review uploaded photos and select exterior, courtyard, kitchen, and lounge images for the site.
-- [x] Replace the illustrated hero with a real exterior photograph and add an accessible gallery with a short video preview and a bedroom still extracted from the walkthrough.
-- [x] Run lint/build and verify responsive media rendering.
+- [x] Replace the illustrated hero with a real exterior photograph and add accommodation photos.
+- [x] Extract and curate a 328-frame, optimized sequence from the walkthrough video for scroll scrubbing.
+- [x] Replace the temporary video player/gallery with a responsive scroll-controlled frame-by-frame tour.
+- [x] Verify desktop/mobile scroll behavior, reverse scrolling, reduced-motion fallback, lint, and the final production build.
+- [x] Add electricity-included and solar-backup details, without promising uninterrupted power.
+- [x] Describe the quiet farm setting.
+- [x] Set property directions to the exact shared-map pin while retaining the supplied postal/street address separately.
+- [x] Add nearby links for KFC on the R555, Steelpoort Town, Tubatse Crossing, Tubatse Chrome Club, Thaba Moshate Casino, Burgersfort, and the nearby mines; mark route estimates as approximate.
+- [ ] Create and verify a Google Business Profile with the owner when account access is available.
 
 ## Media handoff
 
-- Original HEIC photos and MOV videos in `public/images/` are preserved unchanged.
-- Optimized photos for the hero/gallery live in `public/images/media/`: farm exterior, courtyard, kitchen, lounge poster, and a bedroom frame.
-- A 12-second, 720 × 1280 H.264 preview from `IMG_4532.MOV` is available at `public/videos/living-area-preview.mp4` (~1.8 MB).
-- The website uses a real farm exterior photo in the hero and shows the courtyard, kitchen, and bedroom frame beside a native-controls living-area video player.
-- A bedroom frame at 235 seconds from the 4K HDR `grootboom-farm-video.MOV` was tone-mapped to WebP for the gallery. The source remains unchanged and is not served directly; other sampled stills were rejected for poor framing or harsh sunlight.
-- No file was literally named `vid.mov`; `grootboom-farm-video.MOV` was treated as the intended scenery/room-tour video based on its content and duration.
-- The embedded preview is a regular video only; it does not claim to be a 3D, 360°, or live-exploration experience.
-- The earlier `tour-frame-*.webp` candidates remain available but are not used in the page.
+- Original HEIC photos and MOV videos in `public/images/` are preserved locally and ignored by Git; optimized WebP website assets live under `public/images/media/`.
+- No file was literally named `vid.mov`; `grootboom-farm-video.MOV` is being used as the intended 5:51 walkthrough source.
+- The tour sequence contains 328 tone-mapped 540 × 960 WebP frames, sampled at one frame per second from the accommodation portion of the source. It starts at the accommodation buildings and skips one clear mirror reflection of the camera operator; the full source remains unchanged.
+- `src/app/scroll-tour.tsx` maps document scroll progress to the frame index and draws the nearest loaded frame to a canvas. Frames are fetched on demand; the reduced-motion mode remains a static poster.
+- The client-preview baseline is committed as `6971ce9` and pushed to `origin/main`; original camera MOV/HEIC files are excluded. The scroll-tour work remains local on `feature/scroll-driven-room-tour`.
+- The baseline is available at `https://github.com/DrMcGi/j-j-accommodation`; the scroll-tour branch has not been pushed.
+- The scroll-tour is a frame-by-frame scrub along the recorded camera path, not free-look 3D or a 360° tour.
+- The property pin is `-24.759645, 30.1716586`; the displayed address remains `336KT Grootboom Farm, Corner Lannex R555, Steelpoort 1133`.
+- The mapped KFC on the R555 is roughly 5 km / 6–8 minutes by car; Burgersfort is roughly 22 km / 23 minutes by road. These are estimates, not guaranteed journey times. Mine links open map directions by named destination; exact mine-gate distances are not stated.
+- Tubatse Chrome Club is listed as an 18-hole woodland golf course; the course profile also lists a clubhouse, restaurant, gym, pool, squash and tennis facilities. The route link searches by venue name, and visitors should confirm access before going.
+- Thaba Moshate is Peermont's casino, hotel and convention resort in Burgersfort; its official page lists restaurants, a spa and entertainment. From the farm pin, the road-route estimate is about 18.4 km / 20 minutes; present this as roughly 18 km / 20–25 minutes.
+- Tubatse Crossing's official site describes a regional shopping centre with 90+ stores, dining and entertainment at the R37/R555 intersection in Burgersfort.
+- Business Profile setup remains pending and requires owner account access and Google's verification process.
 
 ## Logo handoff
 
@@ -77,6 +90,9 @@ This file is the durable project handoff. Update it when work is completed so th
 - Confirmed the production header uses one full-logo image, stays within the mobile viewport, and passed `npm run lint` and `npm run build`.
 - Reviewed photo crops and video frames; selected the exterior, courtyard, kitchen, and bedroom assets. Integrated them with a 12-second optimized living-area video preview; original uploads remain untouched.
 - 12 November 2026: `npm run lint` passed. After the final media update, the default Turbopack build timed out in its Tailwind CSS worker; `npm run build -- --webpack` completed successfully. Production smoke tests returned HTTP 200 for the homepage and selected media; mobile checks confirmed the video plays and the page has no horizontal overflow.
+- 12 November 2026: Verified the scroll-controlled tour changes frames and captions at desktop scroll positions, responds correctly when scrolling backward, and uses the static poster when reduced motion is enabled. Fixed the mobile grid so the frame display remains visible at 390px and 360px widths. `npm run lint` and the final `npm run build -- --webpack` both passed.
+- 12 November 2026: Added solar/electricity and quiet-setting details, map directions to the pinned coordinates, and nearby KFC, town, Burgersfort, and mine destinations. `npm run lint` and `npm run build` passed; production page and map links were checked, with no horizontal overflow at 390px or 360px.
+- 12 November 2026: Expanded the nearby section after identifying an 18-hole Tubatse Chrome Club golf course, Tubatse Crossing, and Thaba Moshate Casino Resort. Venue links use mapped directions and external venue/course information; estimates are qualified. Verified venue details against Hole19, Tubatse Crossing's site, and Peermont.
 
 ## Decisions and constraints
 
