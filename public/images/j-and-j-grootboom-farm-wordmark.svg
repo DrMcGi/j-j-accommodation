@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="630" height="88" viewBox="0 0 630 88" role="img" aria-labelledby="wordmark-title wordmark-description">
+  <title id="wordmark-title">Grootboom Farm Accommodation</title>
+  <desc id="wordmark-description">The wordmark cropped from the full logo, with red GROOTBOOM, charcoal FARM, and widely spaced charcoal ACCOMMODATION.</desc>
+  <g transform="translate(0 -581)">
+    <g transform="translate(0 581) scale(0.48 0.37)" text-rendering="geometricPrecision">
+      <text x="655" y="120" text-anchor="middle" font-family="Arial Narrow, Arial, sans-serif" font-size="140" letter-spacing="8" textLength="1260" lengthAdjust="spacingAndGlyphs"><tspan fill="#B11827" stroke="#B11827" stroke-width="4" stroke-linejoin="round" paint-order="stroke fill" font-weight="700">GROOT</tspan><tspan fill="#B11827" font-weight="400">BOOM</tspan><tspan fill="#343233" stroke="#343233" stroke-width="4" stroke-linejoin="round" paint-order="stroke fill" font-weight="700"> FARM</tspan></text>
+      <text x="655" y="218" text-anchor="middle" fill="#343233" font-family="Arial Narrow, Arial, sans-serif" font-size="80" font-weight="400" letter-spacing="24" textLength="1240" lengthAdjust="spacingAndGlyphs">ACCOMMODATION</text>
+    </g>
+  </g>
+</svg>

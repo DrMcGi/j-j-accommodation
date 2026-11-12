@@ -24,6 +24,10 @@
 .DS_Store
 *.pem
 
+# Keep original camera uploads local; publish optimized web assets instead.
+/public/images/*.[hH][eE][iI][cC]
+/public/images/*.[mM][oO][vV]
+
 # debug
 npm-debug.log*
 yarn-debug.log*
