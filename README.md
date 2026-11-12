@@ -37,11 +37,17 @@ Google Business Profile setup is a future task and will require the owner's Goog
 
 ## Scroll-driven room tour
 
-The room-tour section maps page scroll position to a curated 227-frame sequence from `grootboom-farm-video.MOV`, rendered into a canvas. Scrolling forward moves through the recorded walkthrough; scrolling backward revisits earlier frames. The selected WebP frames are sampled at one frame per second and stored in `public/images/tour-sequence/`, then loaded on demand. The complete portrait frame stays visible on a neutral gallery surface; guidance sits beside it on desktop and below it on mobile. Reduced-motion preferences show a static poster instead. The owner-requested cuts are tracked in `PROJECT-TRACKER.md` and remain under visual review.
+The room-tour section maps page scroll position to a curated 224-frame sequence from `grootboom-farm-video.MOV`, rendered into a canvas. Scrolling forward moves through the recorded walkthrough; scrolling backward revisits earlier frames. The selected WebP frames are sampled at one frame per second and stored in `public/images/tour-sequence/`, then loaded on demand. The complete portrait frame stays visible on a neutral gallery surface; guidance sits beside it on desktop and below it on mobile. Reduced-motion preferences show a static poster instead. The owner-requested cuts are tracked in `PROJECT-TRACKER.md` and remain under visual review.
 
 No upload was named `vid.mov`; the 5:51 `grootboom-farm-video.MOV` was treated as the intended scenery/room-tour source. This is a scroll-controlled view along the camera's recorded path, not free-look 3D or a 360° tour. The original HEIC and MOV uploads remain local and are ignored by Git; the website uses optimized WebP assets.
 
 Room-specific galleries, availability, online bookings, document signing, payment processing, invoicing, notifications, and an admin calendar are future project phases. An explorable 3D or Gaussian-splat tour will require suitable capture media for each room; the existing frame sequence cannot produce geometry or free-look navigation. Playwright is a development dependency and is used to review desktop and mobile presentation.
+
+## Two-bedroom rental tour
+
+A separate 200-frame sequence from the four new videos is saved in `public/images/rentals/two-bedroom/tour-sequence/`, in source-video order. The tone-mapped WebP frames are sampled at approximately one frame per second and begin with the exterior approach before following the camera through the furnished interior, bedrooms, and bathroom.
+
+Open **Room tours** in the site navigation. The section defaults to the two-bedroom rental and can switch to the full property walkthrough. Scroll through the section to follow the recorded camera path. The bachelor room-only tour is marked as in preparation until its separate sequence is ready. See [`TOUR-MANIFEST.md`](./public/images/rentals/two-bedroom/TOUR-MANIFEST.md) for source filenames and frame ranges.
 
 ## Logo assets
 

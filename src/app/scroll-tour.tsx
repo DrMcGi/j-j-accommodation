@@ -21,14 +21,14 @@ const SKIPPED_SOURCE_FRAMES = new Set([
   ...Array.from({ length: 17 }, (_, index) => index + 155),
   ...Array.from({ length: 9 }, (_, index) => index + 175),
   186, 188, 189, 190, 191, 192, 193,
+  154, 172, 173,
 ]);
 const SOURCE_FRAMES = Array.from(
   { length: SOURCE_FRAME_COUNT },
   (_, index) => index + 1,
 ).filter((frame) => !SKIPPED_SOURCE_FRAMES.has(frame));
-const FRAME_COUNT = SOURCE_FRAMES.length;
 
-const SCENES = [
+const PROPERTY_SCENES = [
   {
     end: 0.11,
     label: "THE FARM",
@@ -73,7 +73,55 @@ const SCENES = [
   },
 ] as const;
 
-function frameSource(index: number) {
+const TWO_BEDROOM_SCENES = [
+  {
+    end: 0.275,
+    label: "THE ARRIVAL",
+    title: "Come in to Unit 3.",
+    description: "Start outside, then follow the camera through the entrance.",
+  },
+  {
+    end: 0.745,
+    label: "LIVING AND BEDROOMS",
+    title: "Explore the furnished interior.",
+    description: "Move through the living area and into the bedrooms.",
+  },
+  {
+    end: 0.89,
+    label: "BEDROOMS",
+    title: "Take a closer look at the sleeping space.",
+    description: "Continue along the recorded path through the bedroom area.",
+  },
+  {
+    end: 1,
+    label: "BATHROOM",
+    title: "Finish with the bathroom.",
+    description: "The final part of this sequence moves through the bathroom.",
+  },
+] as const;
+
+type TourKey = "two-bedroom" | "property";
+
+const TOUR_CONFIG = {
+  "two-bedroom": {
+    frameCount: 200,
+    label: "Two-bedroom rental",
+    poster: "/images/rentals/two-bedroom/tour-sequence/frame-0001.webp",
+    scenes: TWO_BEDROOM_SCENES,
+  },
+  property: {
+    frameCount: SOURCE_FRAMES.length,
+    label: "Full property walkthrough",
+    poster: "/images/media/farm-exterior-hero.webp",
+    scenes: PROPERTY_SCENES,
+  },
+} as const;
+
+function frameSource(index: number, tour: TourKey) {
+  if (tour === "two-bedroom") {
+    return `/images/rentals/two-bedroom/tour-sequence/frame-${String(index + 1).padStart(4, "0")}.webp`;
+  }
+
   const sourceFrame = SOURCE_FRAMES[index];
   return `/images/tour-sequence/frame-${String(sourceFrame).padStart(3, "0")}.webp`;
 }
@@ -84,9 +132,12 @@ export default function ScrollTour() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
   const progressFillRef = useRef<HTMLSpanElement>(null);
+  const [selectedTour, setSelectedTour] = useState<TourKey>("two-bedroom");
   const [activeScene, setActiveScene] = useState(0);
   const [isReady, setIsReady] = useState(false);
   const [frameError, setFrameError] = useState(false);
+  const tour = TOUR_CONFIG[selectedTour];
+  const scenes = tour.scenes;
 
   useEffect(() => {
     const track = trackRef.current;
@@ -108,6 +159,7 @@ export default function ScrollTour() {
     const frameCanvas = canvas;
     const drawingContext = context;
     const images = new Map<number, HTMLImageElement>();
+    const frameCount = tour.frameCount;
     let currentFrame = -1;
     let currentScene = 0;
     let animationFrame = 0;
@@ -162,7 +214,7 @@ export default function ScrollTour() {
         }
       };
       images.set(index, image);
-      image.src = frameSource(index);
+      image.src = frameSource(index, selectedTour);
 
       for (const cachedIndex of images.keys()) {
         if (Math.abs(cachedIndex - currentFrame) > 4) {
@@ -181,7 +233,7 @@ export default function ScrollTour() {
       }
 
       for (let offset = 1; offset <= 2; offset += 1) {
-        if (index + offset < FRAME_COUNT) {
+        if (index + offset < frameCount) {
           loadImage(index + offset);
         }
       }
@@ -202,13 +254,13 @@ export default function ScrollTour() {
         1,
         Math.max(0, (stickyTop - trackBounds.top) / scrollDistance),
       );
-      const frameIndex = Math.round(progress * (FRAME_COUNT - 1));
+      const frameIndex = Math.round(progress * (frameCount - 1));
 
       if (frameIndex !== currentFrame) {
         showFrame(frameIndex);
 
-        const sceneIndex = SCENES.findIndex((scene) => progress <= scene.end);
-        const nextScene = sceneIndex < 0 ? SCENES.length - 1 : sceneIndex;
+        const sceneIndex = scenes.findIndex((scene) => progress <= scene.end);
+        const nextScene = sceneIndex < 0 ? scenes.length - 1 : sceneIndex;
         if (nextScene !== currentScene) {
           currentScene = nextScene;
           setActiveScene(nextScene);
@@ -244,9 +296,9 @@ export default function ScrollTour() {
       }
       images.clear();
     };
-  }, []);
+  }, [scenes, selectedTour, tour.frameCount]);
 
-  const scene = SCENES[activeScene];
+  const scene = scenes[activeScene] ?? scenes[0];
 
   return (
     <section
@@ -263,13 +315,54 @@ export default function ScrollTour() {
             you’ll settle in.
           </h2>
           <p>
-            Scroll through real frames from the accommodation walkthrough. The
-            view moves with you—scroll back up to revisit a moment.
+            Choose a rental tour, then scroll to follow the camera through the
+            supplied footage.
           </p>
         </div>
 
+        <div aria-label="Choose a room tour" className="tour-selector" role="group">
+          <button
+            aria-pressed={selectedTour === "two-bedroom"}
+            className="tour-selector-button"
+            onClick={() => {
+              setSelectedTour("two-bedroom");
+              setActiveScene(0);
+              setIsReady(false);
+              setFrameError(false);
+            }}
+            type="button"
+          >
+            Two-bedroom rental
+          </button>
+          <button
+            aria-pressed={selectedTour === "property"}
+            className="tour-selector-button"
+            onClick={() => {
+              setSelectedTour("property");
+              setActiveScene(0);
+              setIsReady(false);
+              setFrameError(false);
+            }}
+            type="button"
+          >
+            Full property walkthrough
+          </button>
+          <button
+            aria-describedby="bachelor-tour-status"
+            className="tour-selector-button tour-selector-coming-soon"
+            disabled
+            type="button"
+          >
+            Bachelor room tour · in preparation
+          </button>
+        </div>
+        <p className="tour-selector-note" id="bachelor-tour-status">
+          The bachelor tour will show only that room once its room-only sequence
+          is prepared. The two-bedroom rental tour is available now.
+        </p>
+
         <div
-          aria-label="Scroll-controlled room tour"
+          aria-label={`Scroll-controlled ${tour.label.toLowerCase()}`}
           className="tour-scroll-track"
           ref={trackRef}
           role="group"
@@ -293,7 +386,7 @@ export default function ScrollTour() {
                   <span>WALKTHROUGH PROGRESS</span>
                   <span>
                     {String(activeScene + 1).padStart(2, "0")} /{" "}
-                    {String(SCENES.length).padStart(2, "0")}
+                    {String(scenes.length).padStart(2, "0")}
                   </span>
                 </div>
                 <div
@@ -325,11 +418,11 @@ export default function ScrollTour() {
                 alt=""
                 aria-hidden="true"
                 className="tour-sequence-poster"
-                height={1000}
+                height={960}
                 loading="lazy"
-                src="/images/media/farm-exterior-hero.webp"
+                src={tour.poster}
                 unoptimized
-                width={900}
+                width={540}
               />
               <canvas aria-hidden="true" className="tour-sequence-canvas" ref={canvasRef} />
               {frameError && (

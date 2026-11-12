@@ -889,6 +889,52 @@ a:focus-visible {
   height: 340vh;
 }
 
+.tour-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin: -0.6rem 0 0.4rem;
+}
+
+.tour-selector-button {
+  min-height: 42px;
+  padding: 0.65rem 0.9rem;
+  border: 1px solid #c3c9bb;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--forest-deep);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.69rem;
+  font-weight: 650;
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+}
+
+.tour-selector-button[aria-pressed="true"] {
+  border-color: var(--forest);
+  background: var(--forest);
+  color: white;
+}
+
+.tour-selector-button:focus-visible {
+  outline: 3px solid #b58c4c;
+  outline-offset: 3px;
+}
+
+.tour-selector-button:disabled {
+  border-style: dashed;
+  color: #687560;
+  cursor: not-allowed;
+}
+
+.tour-selector-note {
+  max-width: 680px;
+  margin: 0 0 1rem;
+  color: #687560;
+  font-size: 0.7rem;
+  line-height: 1.6;
+}
+
 .tour-shell {
   width: min(100% - 48px, 1280px);
   margin-inline: auto;
@@ -1790,6 +1836,22 @@ a:focus-visible {
 
   .tour-intro h2 {
     font-size: clamp(2.7rem, 10vw, 3.5rem);
+  }
+
+  .tour-selector {
+    gap: 0.45rem;
+    margin-top: -0.45rem;
+  }
+
+  .tour-selector-button {
+    min-height: 38px;
+    padding: 0.55rem 0.7rem;
+    font-size: 0.61rem;
+  }
+
+  .tour-selector-note {
+    margin-bottom: 0.5rem;
+    font-size: 0.62rem;
   }
 
   .tour-scroll-track {
