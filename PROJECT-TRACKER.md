@@ -40,6 +40,7 @@ This file is the durable project handoff. Update it when work is completed so th
 - [x] Extract and curate a 328-frame, optimized sequence from the walkthrough video for scroll scrubbing.
 - [x] Replace the temporary video player/gallery with a responsive scroll-controlled frame-by-frame tour.
 - [x] Verify desktop/mobile scroll behavior, reverse scrolling, reduced-motion fallback, lint, and the final production build.
+- [ ] Replace the portrait frame tour with a room-specific immersive 3D experience after the owner supplies suitable capture media; existing video frames cannot provide free-look geometry.
 - [x] Add electricity-included and solar-backup details, without promising uninterrupted power.
 - [x] Describe the quiet farm setting.
 - [x] Set property directions to the exact shared-map pin while retaining the supplied postal/street address separately.
@@ -52,6 +53,10 @@ This file is the durable project handoff. Update it when work is completed so th
 - No file was literally named `vid.mov`; `grootboom-farm-video.MOV` is being used as the intended 5:51 walkthrough source.
 - The tour sequence contains 328 tone-mapped 540 × 960 WebP frames, sampled at one frame per second from the accommodation portion of the source. It starts at the accommodation buildings and skips one clear mirror reflection of the camera operator; the full source remains unchanged.
 - `src/app/scroll-tour.tsx` maps document scroll progress to the frame index and draws the nearest loaded frame to a canvas. Frames are fetched on demand; the reduced-motion mode remains a static poster.
+- Current visual direction (12 November 2026): contained portrait frames on a warm neutral gallery surface, with tour guidance in its own desktop column and below the footage on mobile. Do not crop the source or place copy over the room image; previous full-bleed/blurred-side experiments were rejected by the owner.
+- A reversible visual experiment is isolated on `feature/immersive-tour-experiment`; merge approved work back to `main` after Playwright and production checks. Playwright is installed as a development dependency for browser review.
+- For a genuinely explorable 3D/Gaussian-splat room tour, request high-quality room capture (slow, overlapping video or a guided capture set per room/unit). Reusing the existing 328 portrait video frames can only scrub along the recorded camera path.
+- Booking platform roadmap (not implemented yet): inventory by physical room/unit, room-type-specific media tours, date availability and booking holds, guest details and signed terms, payment gateway integration, server-verified payment webhooks, invoice/receipt generation, payment and booking notifications, and an administration calendar. Scope room/rate/deposit/cancellation/monthly-stay rules with the owner before implementing transactions.
 - The client-preview baseline is committed as `6971ce9` and pushed to `origin/main`; original camera MOV/HEIC files are excluded. The scroll-tour work remains local on `feature/scroll-driven-room-tour`.
 - The baseline is available at `https://github.com/DrMcGi/j-j-accommodation`; the scroll-tour branch has not been pushed.
 - The scroll-tour is a frame-by-frame scrub along the recorded camera path, not free-look 3D or a 360° tour.
@@ -93,6 +98,7 @@ This file is the durable project handoff. Update it when work is completed so th
 - 12 November 2026: Verified the scroll-controlled tour changes frames and captions at desktop scroll positions, responds correctly when scrolling backward, and uses the static poster when reduced motion is enabled. Fixed the mobile grid so the frame display remains visible at 390px and 360px widths. `npm run lint` and the final `npm run build -- --webpack` both passed.
 - 12 November 2026: Added solar/electricity and quiet-setting details, map directions to the pinned coordinates, and nearby KFC, town, Burgersfort, and mine destinations. `npm run lint` and `npm run build` passed; production page and map links were checked, with no horizontal overflow at 390px or 360px.
 - 12 November 2026: Expanded the nearby section after identifying an 18-hole Tubatse Chrome Club golf course, Tubatse Crossing, and Thaba Moshate Casino Resort. Venue links use mapped directions and external venue/course information; estimates are qualified. Verified venue details against Hole19, Tubatse Crossing's site, and Peermont.
+- 12 November 2026: Installed Playwright and Chromium for visual review. Replaced the full-viewport overlay experiment with an editorial split layout: full portrait frame in a neutral gallery column, tour guidance in a separate text column, and stacked media/copy on mobile. Removed image cropping, blur-fill backdrop, and image-overlay label. Playwright review at 1440×950 and 390×844 confirmed no horizontal overflow; mobile scroll moved progress from 4% to 69% and updated the scene caption. `npm run lint` passed. `npm run build -- --webpack` passed after sandbox worker-spawn restrictions required an elevated run. Ready to merge approved layout and tracker updates to `main`.
 
 ## Decisions and constraints
 

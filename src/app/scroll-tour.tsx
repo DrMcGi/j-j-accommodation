@@ -230,7 +230,7 @@ export default function ScrollTour() {
       className="tour-section tour-scroll-section section-space"
       id="tour"
     >
-      <div className="page-shell">
+      <div className="tour-shell">
         <div className="tour-intro">
           <p className="eyebrow eyebrow-green">A CLOSER LOOK</p>
           <h2 id="tour-title">
@@ -308,9 +308,6 @@ export default function ScrollTour() {
                 width={900}
               />
               <canvas aria-hidden="true" className="tour-sequence-canvas" ref={canvasRef} />
-              <span aria-hidden="true" className="tour-sequence-stamp">
-                FRAME-BY-FRAME TOUR
-              </span>
               {frameError && (
                 <span className="tour-frame-error" role="status">
                   The frame sequence could not load. A static property image is shown instead.

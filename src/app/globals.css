@@ -889,25 +889,31 @@ a:focus-visible {
   height: 340vh;
 }
 
+.tour-shell {
+  width: min(100% - 48px, 1280px);
+  margin-inline: auto;
+}
+
 .tour-scroll-stage {
   position: sticky;
-  top: 98px;
+  top: 92px;
   display: grid;
-  height: min(72svh, 720px);
-  min-height: 430px;
+  width: 100%;
+  height: min(76svh, 760px);
+  min-height: 500px;
   overflow: hidden;
-  grid-template-columns: minmax(260px, 0.83fr) minmax(0, 1.17fr);
-  border: 1px solid rgb(255 255 255 / 80%);
-  background: #e2e8da;
-  box-shadow: 0 22px 65px rgb(34 40 32 / 10%);
+  grid-template-columns: minmax(290px, .82fr) minmax(0, 1.18fr);
+  background: transparent;
+  align-items: stretch;
 }
 
 .tour-scroll-copy {
   display: flex;
-  min-width: 0;
   flex-direction: column;
   justify-content: space-between;
-  padding: clamp(1.5rem, 3vw, 3rem);
+  gap: 1rem;
+  padding: clamp(1.25rem, 3vw, 3rem) clamp(1rem, 3vw, 3rem) clamp(1.25rem, 3vw, 3rem) 0;
+  color: var(--ink);
 }
 
 .tour-scroll-prompt,
@@ -1008,10 +1014,7 @@ a:focus-visible {
   min-height: 0;
   overflow: hidden;
   place-items: center;
-  background:
-    radial-gradient(ellipse at center, rgb(104 124 90 / 48%), transparent 72%),
-    #263b2f;
-  color: #fff;
+  background: transparent;
 }
 
 .tour-sequence-poster,
@@ -1021,15 +1024,20 @@ a:focus-visible {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  object-position: center;
 }
 
 .tour-sequence-poster {
   opacity: 1;
   transition: opacity 180ms ease;
+  padding: 0 1rem;
 }
 
 .tour-sequence-canvas {
+  z-index: 1;
   opacity: 0;
+  object-fit: contain;
+  padding: 0 1rem;
 }
 
 .tour-scroll-stage.is-ready .tour-sequence-poster {
@@ -1045,9 +1053,10 @@ a:focus-visible {
   top: 1rem;
   left: 1rem;
   padding: 0.55rem 0.7rem;
-  border: 1px solid rgb(255 255 255 / 35%);
-  background: rgb(26 39 31 / 55%);
+  border: 1px solid rgb(255 255 255 / 70%);
+  background: rgb(31 47 36 / 82%);
   color: white;
+  z-index: 2;
   font-size: 0.53rem;
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -1788,16 +1797,30 @@ a:focus-visible {
   }
 
   .tour-scroll-stage {
-    top: 12px;
-    height: min(74svh, 700px);
-    min-height: 470px;
+    top: 0;
+    display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: minmax(0, 1fr) minmax(220px, 1fr);
+    grid-template-rows: minmax(0, 1.75fr) minmax(0, .85fr);
+    height: 100svh;
+    min-height: 650px;
+    background: #f0eee5;
   }
 
   .tour-scroll-copy {
-    gap: 0;
-    padding: 0.85rem 1rem 1rem;
+    grid-row: 2;
+    gap: .35rem;
+    padding: .65rem .2rem 1rem;
+  }
+
+  .tour-sequence-visual {
+    grid-row: 1;
+    min-height: 0;
+    background: transparent;
+  }
+
+  .tour-sequence-canvas,
+  .tour-sequence-poster {
+    padding: 0;
   }
 
   .tour-scroll-prompt {
@@ -1805,7 +1828,7 @@ a:focus-visible {
   }
 
   .tour-scene-copy {
-    margin: 0.65rem 0;
+    margin: 0.15rem 0;
   }
 
   .tour-scene-label {
@@ -1841,6 +1864,12 @@ a:focus-visible {
     left: 0.65rem;
     padding: 0.45rem 0.55rem;
     font-size: 0.46rem;
+  }
+
+  .tour-sequence-stamp {
+    top: .7rem;
+    right: auto;
+    left: .7rem;
   }
 
   .location-grid {
@@ -1985,7 +2014,7 @@ a:focus-visible {
     top: auto;
     height: auto;
     min-height: 0;
-    grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
   }
 
   .tour-sequence-visual {
@@ -2004,6 +2033,6 @@ a:focus-visible {
 @media (prefers-reduced-motion: reduce) and (max-width: 680px) {
   .tour-scroll-stage {
     grid-template-columns: 1fr;
-    grid-template-rows: auto minmax(0, 1fr);
+    grid-template-rows: minmax(420px, 1fr) auto;
   }
 }
