@@ -26,7 +26,7 @@ npm run build
 - **Check-in:** 13:00
 - **Check-out:** 10:00
 - **Address:** 336KT Grootboom Farm, Corner Lannex R555, Steelpoort 1133
-- **Booking:** 068 550 6349 · 081 868 8418 · 013 541 1008
+- **Booking / WhatsApp:** 071 544 0744 · 081 868 8418 · Office: 013 541 1008
 - **Email:** [jjgrootboom405@gmail.com](mailto:jjgrootboom405@gmail.com)
 
 The map directions open the property's pinned coordinates, separate from the written address above. Nearby-area links include KFC on the R555, Steelpoort Town, Tubatse Crossing in Burgersfort, Tubatse Chrome Club, Thaba Moshate Casino, and directions to Dwarsrivier Chrome Mine, Two Rivers Platinum Mine, and Mototolo Mine. Drive estimates are approximate and vary with route and traffic; confirm venue access and opening details before visiting.
@@ -37,7 +37,7 @@ Google Business Profile setup is a future task and will require the owner's Goog
 
 ## Scroll-driven room tour
 
-The room-tour section maps page scroll position to a curated 328-frame sequence from `grootboom-farm-video.MOV`, rendered into a canvas. Scrolling forward moves through the recorded walkthrough; scrolling backward revisits earlier frames. The WebP frames are sampled at one frame per second and stored in `public/images/tour-sequence/`, then loaded on demand. The complete portrait frame stays visible on a neutral gallery surface; guidance sits beside it on desktop and below it on mobile. Reduced-motion preferences show a static poster instead.
+The room-tour section maps page scroll position to a curated 227-frame sequence from `grootboom-farm-video.MOV`, rendered into a canvas. Scrolling forward moves through the recorded walkthrough; scrolling backward revisits earlier frames. The selected WebP frames are sampled at one frame per second and stored in `public/images/tour-sequence/`, then loaded on demand. The complete portrait frame stays visible on a neutral gallery surface; guidance sits beside it on desktop and below it on mobile. Reduced-motion preferences show a static poster instead. The owner-requested cuts are tracked in `PROJECT-TRACKER.md` and remain under visual review.
 
 No upload was named `vid.mov`; the 5:51 `grootboom-farm-video.MOV` was treated as the intended scenery/room-tour source. This is a scroll-controlled view along the camera's recorded path, not free-look 3D or a 360° tour. The original HEIC and MOV uploads remain local and are ignored by Git; the website uses optimized WebP assets.
 

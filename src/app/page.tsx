@@ -182,7 +182,7 @@ const stays: StayOption[] = [
 ];
 
 const contactNumbers = [
-  { display: "068 550 6349", href: "tel:+27685506349" },
+  { display: "071 544 0744", href: "tel:+27715440744" },
   { display: "081 868 8418", href: "tel:+27818688418" },
   { display: "013 541 1008", href: "tel:+27135411008" },
 ];
@@ -215,8 +215,8 @@ const nearbyMines = [
     href: directionsFromProperty("Mototolo Mine, Limpopo, South Africa"),
   },
 ];
-const bookingUrl =
-  "https://wa.me/27685506349?text=Hello%2C%20I%20would%20like%20to%20enquire%20about%20booking%20accommodation.";
+const whatsappNumber = "27715440744";
+const bookingUrl = `https://wa.me/${whatsappNumber}?text=Hello%2C%20I%20would%20like%20to%20enquire%20about%20booking%20accommodation.`;
 
 export default function Home() {
   return (
@@ -404,7 +404,7 @@ export default function Home() {
                   </ul>
                   <a
                     className={`button ${stay.featured ? "button-light" : "button-outline"}`}
-                    href={`https://wa.me/27685506349?text=${encodeURIComponent(stay.message)}`}
+                    href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(stay.message)}`}
                     rel="noreferrer"
                     target="_blank"
                   >

@@ -3,7 +3,30 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
-const FRAME_COUNT = 328;
+const SOURCE_FRAME_COUNT = 328;
+const SKIPPED_SOURCE_FRAMES = new Set([
+  ...Array.from({ length: 25 }, (_, index) => (index + 1) * 2),
+  85, 86, 87, 88,
+  100, 101, 106, 108, 110, 111,
+  176, 178, 179, 180, 181,
+  197, 230, 231,
+  242, 243, 244, 245, 246, 247,
+  253, 254,
+  51, 95, 96, 97,
+  109, 112,
+  122, 123, 124, 125,
+  130, 132,
+  140, 141, 142, 144, 146, 148,
+  150, 151, 152, 153,
+  ...Array.from({ length: 17 }, (_, index) => index + 155),
+  ...Array.from({ length: 9 }, (_, index) => index + 175),
+  186, 188, 189, 190, 191, 192, 193,
+]);
+const SOURCE_FRAMES = Array.from(
+  { length: SOURCE_FRAME_COUNT },
+  (_, index) => index + 1,
+).filter((frame) => !SKIPPED_SOURCE_FRAMES.has(frame));
+const FRAME_COUNT = SOURCE_FRAMES.length;
 
 const SCENES = [
   {
@@ -51,7 +74,8 @@ const SCENES = [
 ] as const;
 
 function frameSource(index: number) {
-  return `/images/tour-sequence/frame-${String(index + 1).padStart(3, "0")}.webp`;
+  const sourceFrame = SOURCE_FRAMES[index];
+  return `/images/tour-sequence/frame-${String(sourceFrame).padStart(3, "0")}.webp`;
 }
 
 export default function ScrollTour() {
