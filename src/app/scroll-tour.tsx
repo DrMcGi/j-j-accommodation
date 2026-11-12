@@ -226,17 +226,22 @@ export default function ScrollTour() {
             Full property walkthrough
           </button>
           <button
-            aria-describedby="bachelor-tour-status"
-            className="tour-selector-button tour-selector-coming-soon"
-            disabled
+            aria-pressed={selectedTour === "bachelor"}
+            className="tour-selector-button"
+            onClick={() => {
+              setSelectedTour("bachelor");
+              setActiveScene(0);
+              setIsReady(false);
+              setFrameError(false);
+            }}
             type="button"
           >
-            Bachelor room tour · in preparation
+            Bachelor room
           </button>
         </div>
-        <p className="tour-selector-note" id="bachelor-tour-status">
-          The bachelor tour will show only that room once its room-only sequence
-          is prepared. The two-bedroom rental tour is available now.
+        <p className="tour-selector-note">
+          Choose a rental tour to follow its own recorded route through the
+          property or room.
         </p>
 
         <div
@@ -305,7 +310,7 @@ export default function ScrollTour() {
               <canvas aria-hidden="true" className="tour-sequence-canvas" ref={canvasRef} />
               {frameError && (
                 <span className="tour-frame-error" role="status">
-                  The frame sequence could not load. A static property image is shown instead.
+                  The frame sequence could not load. A static tour image is shown instead.
                 </span>
               )}
             </div>

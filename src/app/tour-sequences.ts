@@ -1,4 +1,4 @@
-export type TourKey = "two-bedroom" | "property";
+export type TourKey = "two-bedroom" | "bachelor" | "property";
 
 export type TourScene = {
   end: number;
@@ -39,25 +39,13 @@ const SOURCE_FRAMES = Array.from(
   (_, index) => index + 1,
 ).filter((frame) => !SKIPPED_SOURCE_FRAMES.has(frame));
 
-// The first property-tour angle uses the still-available original frames in source range 1-94.
+// The original source frames 1-94 remain the first exterior angle after approved cuts.
 const PROPERTY_ANGLE_ONE_FRAMES = SOURCE_FRAMES.filter((frame) => frame <= 94);
-const PROPERTY_CONTINUATION_FRAMES = SOURCE_FRAMES.filter((frame) => frame > 94);
 const PROPERTY_ANGLE_TWO_FRAME_COUNT = 28;
 const PROPERTY_FRAME_COUNT =
-  PROPERTY_ANGLE_ONE_FRAMES.length +
-  PROPERTY_ANGLE_TWO_FRAME_COUNT +
-  PROPERTY_CONTINUATION_FRAMES.length;
+  PROPERTY_ANGLE_ONE_FRAMES.length + PROPERTY_ANGLE_TWO_FRAME_COUNT;
 const PROPERTY_ANGLE_ONE_END =
   (PROPERTY_ANGLE_ONE_FRAMES.length - 1) / (PROPERTY_FRAME_COUNT - 1);
-const PROPERTY_ANGLE_TWO_END =
-  (PROPERTY_ANGLE_ONE_FRAMES.length + PROPERTY_ANGLE_TWO_FRAME_COUNT - 1) /
-  (PROPERTY_FRAME_COUNT - 1);
-
-function rebaseOriginalPropertyProgress(progress: number) {
-  return (
-    progress * (SOURCE_FRAMES.length - 1) + PROPERTY_ANGLE_TWO_FRAME_COUNT
-  ) / (PROPERTY_FRAME_COUNT - 1);
-}
 
 const PROPERTY_SCENES: readonly TourScene[] = [
   {
@@ -67,40 +55,39 @@ const PROPERTY_SCENES: readonly TourScene[] = [
     description: "The first camera pass follows the frontage and covered walkway.",
   },
   {
-    end: PROPERTY_ANGLE_TWO_END,
+    end: 1,
     label: "FULL PROPERTY - ANGLE 2",
     title: "See the grounds from another side.",
     description: "A second exterior pass looks around Unit 3 and the farm buildings.",
   },
+];
+
+const BACHELOR_SOURCE_FRAMES = SOURCE_FRAMES.filter((frame) => frame > 94);
+const BACHELOR_FRAME_COUNT = BACHELOR_SOURCE_FRAMES.length;
+const BACHELOR_SCENES: readonly TourScene[] = [
   {
-    end: rebaseOriginalPropertyProgress(0.31),
-    label: "AROUND THE COURTYARD",
-    title: "Take in the farm surroundings.",
-    description: "Continue through the courtyard and covered walkways.",
+    end: 26 / (BACHELOR_FRAME_COUNT - 1),
+    label: "ENTRY AND KITCHEN",
+    title: "Step inside the bachelor unit.",
+    description: "Enter the unit and follow the path through its kitchen area.",
   },
   {
-    end: rebaseOriginalPropertyProgress(0.6),
-    label: "INSIDE",
-    title: "Step into the accommodation.",
-    description: "The original walkthrough continues through furnished interior spaces.",
+    end: 39 / (BACHELOR_FRAME_COUNT - 1),
+    label: "LIVING AREA",
+    title: "Explore the living space.",
+    description: "Move from the kitchen and seating area toward the sleeping space.",
   },
   {
-    end: rebaseOriginalPropertyProgress(0.75),
-    label: "THE BEDROOM",
-    title: "See the room for yourself.",
-    description: "Explore a bedroom shown in the supplied walkthrough.",
-  },
-  {
-    end: rebaseOriginalPropertyProgress(0.9),
-    label: "MORE OF THE INTERIOR",
-    title: "Take a closer look around.",
-    description: "Keep scrolling to move through the furnished spaces.",
+    end: 136 / (BACHELOR_FRAME_COUNT - 1),
+    label: "BACHELOR ROOM",
+    title: "Take a closer look at the room.",
+    description: "Follow the camera around the bedroom and its furnishings.",
   },
   {
     end: 1,
-    label: "THE FINAL ROOMS",
-    title: "A final look inside.",
-    description: "Continue through the living area and other interior spaces.",
+    label: "BATHROOM",
+    title: "Finish with the bathroom.",
+    description: "The final frames show the bathroom inside this unit.",
   },
 ];
 
@@ -139,6 +126,12 @@ export const TOUR_CONFIG: Record<TourKey, TourDefinition> = {
     poster: "/images/rentals/two-bedroom/tour-sequence/frame-0001.webp",
     scenes: TWO_BEDROOM_SCENES,
   },
+  bachelor: {
+    frameCount: BACHELOR_FRAME_COUNT,
+    label: "Bachelor room",
+    poster: "/images/rentals/bachelor/tour-sequence/frame-0001.webp",
+    scenes: BACHELOR_SCENES,
+  },
   property: {
     frameCount: PROPERTY_FRAME_COUNT,
     label: "Full property walkthrough",
@@ -152,18 +145,15 @@ export function frameSource(index: number, tour: TourKey) {
     return `/images/rentals/two-bedroom/tour-sequence/frame-${String(index + 1).padStart(4, "0")}.webp`;
   }
 
+  if (tour === "bachelor") {
+    return `/images/rentals/bachelor/tour-sequence/frame-${String(index + 1).padStart(4, "0")}.webp`;
+  }
+
   if (index < PROPERTY_ANGLE_ONE_FRAMES.length) {
     const sourceFrame = PROPERTY_ANGLE_ONE_FRAMES[index];
     return `/images/tours/full-property/angle-1/frame-${String(sourceFrame).padStart(3, "0")}.webp`;
   }
 
-  const continuationIndex =
-    index - PROPERTY_ANGLE_ONE_FRAMES.length - PROPERTY_ANGLE_TWO_FRAME_COUNT;
-  if (continuationIndex < 0) {
-    const angleTwoFrame = index - PROPERTY_ANGLE_ONE_FRAMES.length + 1;
-    return `/images/tours/full-property/angle-2/frame-${String(angleTwoFrame).padStart(4, "0")}.webp`;
-  }
-
-  const sourceFrame = PROPERTY_CONTINUATION_FRAMES[continuationIndex];
-  return `/images/tours/full-property/continuation/frame-${String(sourceFrame).padStart(3, "0")}.webp`;
+  const angleTwoFrame = index - PROPERTY_ANGLE_ONE_FRAMES.length + 1;
+  return `/images/tours/full-property/angle-2/frame-${String(angleTwoFrame).padStart(4, "0")}.webp`;
 }

@@ -921,12 +921,6 @@ a:focus-visible {
   outline-offset: 3px;
 }
 
-.tour-selector-button:disabled {
-  border-style: dashed;
-  color: #687560;
-  cursor: not-allowed;
-}
-
 .tour-selector-note {
   max-width: 680px;
   margin: 0 0 1rem;
