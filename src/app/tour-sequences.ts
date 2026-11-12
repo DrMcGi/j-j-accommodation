@@ -42,7 +42,10 @@ const SOURCE_FRAMES = Array.from(
 // Angle 1 keeps original source IDs 1-31 after earlier approved cuts.
 const PROPERTY_ANGLE_ONE_FRAMES = SOURCE_FRAMES.filter((frame) => frame <= 31);
 // The new angle plays the retained source IDs 92 down to 70 in reverse order.
-const PROPERTY_ANGLE_TWO_FRAMES = SOURCE_FRAMES.filter(
+const PROPERTY_ANGLE_TWO_FOLDER_FRAMES = SOURCE_FRAMES.filter(
+  (frame) => frame > 31 && frame <= 94,
+);
+const PROPERTY_ANGLE_TWO_FRAMES = PROPERTY_ANGLE_TWO_FOLDER_FRAMES.filter(
   (frame) => frame >= 70 && frame <= 92,
 ).reverse();
 const PROPERTY_ANGLE_THREE_FRAME_COUNT = 28;
@@ -165,17 +168,17 @@ export function frameSource(index: number, tour: TourKey) {
   }
 
   if (index < PROPERTY_ANGLE_ONE_FRAMES.length) {
-    const sourceFrame = PROPERTY_ANGLE_ONE_FRAMES[index];
-    return `/images/tours/full-property/angle-1/frame-${String(sourceFrame).padStart(3, "0")}.webp`;
+    return `/images/tours/full-property/angle-1/frame-${String(index + 1).padStart(3, "0")}.webp`;
   }
 
   const afterAngleOne = index - PROPERTY_ANGLE_ONE_FRAMES.length;
   if (afterAngleOne < PROPERTY_ANGLE_TWO_FRAMES.length) {
     const sourceFrame = PROPERTY_ANGLE_TWO_FRAMES[afterAngleOne];
-    return `/images/tours/full-property/angle-2/frame-${String(sourceFrame).padStart(3, "0")}.webp`;
+    const folderIndex = PROPERTY_ANGLE_TWO_FOLDER_FRAMES.indexOf(sourceFrame) + 1;
+    return `/images/tours/full-property/angle-2/frame-${String(folderIndex).padStart(3, "0")}.webp`;
   }
 
   const angleThreeFrame =
     afterAngleOne - PROPERTY_ANGLE_TWO_FRAMES.length + 1;
-  return `/images/tours/full-property/angle-3/frame-${String(angleThreeFrame).padStart(4, "0")}.webp`;
+  return `/images/tours/full-property/angle-3/frame-${String(angleThreeFrame).padStart(3, "0")}.webp`;
 }
