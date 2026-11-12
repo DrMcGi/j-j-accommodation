@@ -39,13 +39,22 @@ const SOURCE_FRAMES = Array.from(
   (_, index) => index + 1,
 ).filter((frame) => !SKIPPED_SOURCE_FRAMES.has(frame));
 
-// The original source frames 1-94 remain the first exterior angle after approved cuts.
-const PROPERTY_ANGLE_ONE_FRAMES = SOURCE_FRAMES.filter((frame) => frame <= 94);
-const PROPERTY_ANGLE_TWO_FRAME_COUNT = 28;
+// Angle 1 keeps original source IDs 1-31 after earlier approved cuts.
+const PROPERTY_ANGLE_ONE_FRAMES = SOURCE_FRAMES.filter((frame) => frame <= 31);
+// The new angle plays the retained source IDs 92 down to 70 in reverse order.
+const PROPERTY_ANGLE_TWO_FRAMES = SOURCE_FRAMES.filter(
+  (frame) => frame >= 70 && frame <= 92,
+).reverse();
+const PROPERTY_ANGLE_THREE_FRAME_COUNT = 28;
 const PROPERTY_FRAME_COUNT =
-  PROPERTY_ANGLE_ONE_FRAMES.length + PROPERTY_ANGLE_TWO_FRAME_COUNT;
+  PROPERTY_ANGLE_ONE_FRAMES.length +
+  PROPERTY_ANGLE_TWO_FRAMES.length +
+  PROPERTY_ANGLE_THREE_FRAME_COUNT;
 const PROPERTY_ANGLE_ONE_END =
   (PROPERTY_ANGLE_ONE_FRAMES.length - 1) / (PROPERTY_FRAME_COUNT - 1);
+const PROPERTY_ANGLE_TWO_END =
+  (PROPERTY_ANGLE_ONE_FRAMES.length + PROPERTY_ANGLE_TWO_FRAMES.length - 1) /
+  (PROPERTY_FRAME_COUNT - 1);
 
 const PROPERTY_SCENES: readonly TourScene[] = [
   {
@@ -55,10 +64,16 @@ const PROPERTY_SCENES: readonly TourScene[] = [
     description: "The first camera pass follows the frontage and covered walkway.",
   },
   {
-    end: 1,
+    end: PROPERTY_ANGLE_TWO_END,
     label: "FULL PROPERTY - ANGLE 2",
+    title: "Follow the walkway from the other end.",
+    description: "This reverse-ordered pass runs from source frame 92 back to 70, creating a forward-moving view from the opposite direction.",
+  },
+  {
+    end: 1,
+    label: "FULL PROPERTY - ANGLE 3",
     title: "See the grounds from another side.",
-    description: "A second exterior pass looks around Unit 3 and the farm buildings.",
+    description: "A third exterior pass looks around Unit 3 and the farm buildings.",
   },
 ];
 
@@ -154,6 +169,13 @@ export function frameSource(index: number, tour: TourKey) {
     return `/images/tours/full-property/angle-1/frame-${String(sourceFrame).padStart(3, "0")}.webp`;
   }
 
-  const angleTwoFrame = index - PROPERTY_ANGLE_ONE_FRAMES.length + 1;
-  return `/images/tours/full-property/angle-2/frame-${String(angleTwoFrame).padStart(4, "0")}.webp`;
+  const afterAngleOne = index - PROPERTY_ANGLE_ONE_FRAMES.length;
+  if (afterAngleOne < PROPERTY_ANGLE_TWO_FRAMES.length) {
+    const sourceFrame = PROPERTY_ANGLE_TWO_FRAMES[afterAngleOne];
+    return `/images/tours/full-property/angle-2/frame-${String(sourceFrame).padStart(3, "0")}.webp`;
+  }
+
+  const angleThreeFrame =
+    afterAngleOne - PROPERTY_ANGLE_TWO_FRAMES.length + 1;
+  return `/images/tours/full-property/angle-3/frame-${String(angleThreeFrame).padStart(4, "0")}.webp`;
 }
