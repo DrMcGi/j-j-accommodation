@@ -63,8 +63,8 @@ This file is the durable project handoff. Update it when work is completed so th
 - Playwright is installed as a development dependency and has been used to review desktop and mobile layouts. Current working branch is `main`.
 - For a genuinely explorable 3D/Gaussian-splat room tour, request high-quality room capture (slow, overlapping video or a guided capture set per room/unit). Reusing the existing 328 portrait video frames can only scrub along the recorded camera path.
 - Booking platform implementation and its outstanding production setup are tracked below. The product flows are implemented in the local project; provider configuration, legal policy approval and staging/live acceptance remain outstanding.
-- Current Git HEAD is `ae3f991` on `main`, which tracks `origin/main`; original camera MOV/HEIC files are excluded. The booking-platform implementation and tracker updates are local and uncommitted.
-- The GitHub repository is `https://github.com/DrMcGi/j-j-accommodation`. Do not commit or push these local booking-platform changes until the owner asks.
+- Current Git HEAD is `6f2b5c6` on `main`, pushed to `origin/main`; original camera MOV/HEIC files are excluded. The booking-platform code and its setup documentation are committed.
+- The GitHub repository is `https://github.com/DrMcGi/j-j-accommodation`. The booking-platform implementation was pushed to `main` as commit `6f2b5c6`; real service provisioning and staging verification remain outstanding.
 - The scroll-tour is a frame-by-frame scrub along the recorded camera path, not free-look 3D or a 360° tour.
 - The property pin is `-24.759645, 30.1716586`; the displayed address remains `336KT Grootboom Farm, Corner Lannex R555, Steelpoort 1133`.
 - The mapped KFC on the R555 is roughly 5 km / 6–8 minutes by car; Burgersfort is roughly 22 km / 23 minutes by road. These are estimates, not guaranteed journey times. Mine links open map directions by named destination; exact mine-gate distances are not stated.
