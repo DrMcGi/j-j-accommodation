@@ -16,6 +16,7 @@ export default function AccountPanel() {
   const [email, setEmail] = useState("");
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [bookings, setBookings] = useState<Booking[]>([]);
+  const [onlinePaymentsEnabled, setOnlinePaymentsEnabled] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -27,7 +28,7 @@ export default function AccountPanel() {
       if (data.user) {
         const response = await fetch("/api/my-bookings", { cache: "no-store" });
         const result = await response.json();
-        if (active && response.ok) setBookings(result.bookings);
+        if (active && response.ok) { setBookings(result.bookings); setOnlinePaymentsEnabled(result.onlinePaymentsEnabled === true); }
       }
     });
     return () => { active = false; };
@@ -40,7 +41,7 @@ export default function AccountPanel() {
       if (attempts === 0) setMessage("Ozow returned you to J & J. We are waiting for its signed payment confirmation; this page will update automatically.");
       const response = await fetch("/api/my-bookings", { cache: "no-store" });
       const result = await response.json();
-      if (active && response.ok) setBookings(result.bookings);
+      if (active && response.ok) { setBookings(result.bookings); setOnlinePaymentsEnabled(result.onlinePaymentsEnabled === true); }
       attempts += 1;
       if (attempts >= 12) window.clearInterval(timer);
     }, 5000);
@@ -53,7 +54,7 @@ export default function AccountPanel() {
     if (data.user) {
       const response = await fetch("/api/my-bookings", { cache: "no-store" });
       const result = await response.json();
-      if (response.ok) setBookings(result.bookings);
+      if (response.ok) { setBookings(result.bookings); setOnlinePaymentsEnabled(result.onlinePaymentsEnabled === true); }
     }
   }
   async function login(event: FormEvent<HTMLFormElement>) {
@@ -73,13 +74,18 @@ export default function AccountPanel() {
     setError(""); setLoading(true);
     const response = await fetch("/api/payments/checkout", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ bookingId }) });
     const data = await response.json(); setLoading(false);
-    if (!response.ok) { setError(data.error); return; }
+    if (!response.ok) {
+      setError(!onlinePaymentsEnabled
+        ? "Your room and signed agreement are ready to pay, but Ozow is not configured yet. The booking remains unconfirmed, and the 20-minute room hold will expire unless payment is completed."
+        : data.error);
+      return;
+    }
     window.location.assign(data.redirectUrl);
   }
-  async function signOut() { await client?.auth.signOut(); setUserEmail(null); setBookings([]); }
+  async function signOut() { await client?.auth.signOut(); setUserEmail(null); setBookings([]); setOnlinePaymentsEnabled(false); }
   return <section className="booking-card account-card">
     {userEmail ? <><div className="account-heading"><div><span>ACCOUNT</span><h2>{userEmail}</h2></div><button className="button button-light" onClick={signOut}>Sign out</button></div><h3>Your bookings</h3>
-      {bookings.length === 0 ? <p>No reservations are linked to this account yet. <a href="/book">Book a stay</a>.</p> : <div className="account-bookings">{bookings.map((booking) => <article className="account-booking" key={booking.id}><div><span>{booking.reference}</span><h3>{booking.room_types?.name ?? "Accommodation"} {booking.room_units?.unit_name ? `· ${booking.room_units.unit_name}` : ""}</h3><p>{booking.start_date} to {booking.end_date} · {booking.stay_period}</p><strong className={`booking-status status-${booking.status}`}>{booking.status.replaceAll("_", " ")}</strong>{booking.status === "awaiting_payment" && booking.hold_expires_at && <p>Room held until {new Date(booking.hold_expires_at).toLocaleTimeString("en-ZA", { hour: "2-digit", minute: "2-digit" })}. Complete the agreement and payment before then.</p>}</div><div className="account-booking-actions">{booking.amount_cents && <strong>{money(booking.amount_cents)}</strong>}{booking.contract_documents?.map((contract) => <AgreementSigner contract={contract} key={contract.id} onSigned={refresh} />)}{booking.status === "awaiting_payment" && booking.contract_documents?.some((contract) => contract.status === "signed") && <button className="button button-dark" disabled={loading} onClick={() => pay(booking.id)}>Continue to payment</button>}{booking.invoices?.map((invoice) => <a className="button button-light" href={`/api/invoices/${invoice.id}`} key={invoice.id} target="_blank" rel="noreferrer">Print {invoice.kind}</a>)}</div></article>)}</div>}
+      {bookings.length === 0 ? <p>No reservations are linked to this account yet. <a href="/book">Book a stay</a>.</p> : <div className="account-bookings">{bookings.map((booking) => <article className="account-booking" key={booking.id}><div><span>{booking.reference}</span><h3>{booking.room_types?.name ?? "Accommodation"} {booking.room_units?.unit_name ? `· ${booking.room_units.unit_name}` : ""}</h3><p>{booking.start_date} to {booking.end_date} · {booking.stay_period}</p><strong className={`booking-status status-${booking.status}`}>{booking.status.replaceAll("_", " ")}</strong>{booking.status === "awaiting_payment" && booking.hold_expires_at && <p>Room held until {new Date(booking.hold_expires_at).toLocaleTimeString("en-ZA", { hour: "2-digit", minute: "2-digit" })}. Complete the agreement and payment before then.</p>}</div><div className="account-booking-actions">{booking.amount_cents && <strong>{money(booking.amount_cents)}</strong>}{booking.contract_documents?.map((contract) => <AgreementSigner contract={contract} key={contract.id} onSigned={refresh} />)}{booking.status === "awaiting_payment" && booking.contract_documents?.some((contract) => contract.status === "signed") && <>{!onlinePaymentsEnabled && <p className="payment-setup-note">Agreement signed. Ozow checkout is not connected yet, so this stay is not confirmed. The room hold expires in 20 minutes.</p>}<button className="button button-dark" disabled={loading || !onlinePaymentsEnabled} onClick={() => pay(booking.id)}>{onlinePaymentsEnabled ? "Continue to payment" : "Ozow payment setup pending"}</button></>}{booking.invoices?.map((invoice) => <a className="button button-light" href={`/api/invoices/${invoice.id}`} key={invoice.id} target="_blank" rel="noreferrer">Print {invoice.kind}</a>)}</div></article>)}</div>}
     </> : <><h2>Sign in or create an account</h2><p>Use the same email address you put on your booking request to link it to your account.</p><form onSubmit={login}><label>Email address<input type="email" autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} required /></label><label>Password<input type="password" name="password" minLength={8} autoComplete="current-password" required /></label><div className="account-auth-actions"><button className="button button-dark" name="mode" value="signin" disabled={loading}>Sign in</button><button className="button button-light" name="mode" value="signup" disabled={loading}>Create account</button></div></form></>}
     {error && <p className="form-message is-error" role="alert">{error}</p>}{message && <p className="form-message is-success" role="status">{message}</p>}
   </section>;

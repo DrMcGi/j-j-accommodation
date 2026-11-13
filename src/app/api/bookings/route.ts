@@ -6,14 +6,8 @@ export async function POST(request: Request) {
   if (Number(request.headers.get("content-length") ?? 0) > 10_000) return Response.json({ error: "Request is too large." }, { status: 413 });
   const db = getServiceClient();
   if (!db) return Response.json({ error: "Online booking is not configured. Please contact us by phone or WhatsApp." }, { status: 503 });
-  if (!process.env.OZOW_CLIENT_ID || !process.env.OZOW_CLIENT_SECRET || !process.env.OZOW_SITE_CODE
-    || !process.env.OZOW_WEBHOOK_SECRET || !process.env.NEXT_PUBLIC_SITE_URL
-    || !process.env.RESEND_API_KEY || !process.env.EMAIL_FROM || !process.env.CRON_SECRET
-    || process.env.NOTIFICATIONS_CRON_CONFIGURED !== "true") {
-    return Response.json({ error: "Room availability is live, but payment and booking notification setup is not complete. No reservation has been held." }, { status: 503 });
-  }
   const { data: policy } = await db.from("booking_policy").select("*").eq("singleton", true).maybeSingle();
-  if (!policy?.approved_at) return Response.json({ error: "The property has not completed its one-time booking policy setup. No reservation has been held." }, { status: 503 });
+  if (!policy?.approved_at) return Response.json({ error: "The property agreement and occupancy policy is not published yet, so no room has been held. You can review the guest rules and agreement terms before booking." }, { status: 503 });
 
   const auth = await getUserClient();
   const { data: { user } } = auth ? await auth.auth.getUser() : { data: { user: null } };
@@ -125,6 +119,6 @@ export async function POST(request: Request) {
       invoice_number: booking.invoice_number,
       status: "awaiting_payment",
     },
-    message: `Room ${booking.assigned_unit} has been assigned and held for 20 minutes. Review the agreement and complete payment in your account.`,
+    message: `Room ${booking.assigned_unit} has been assigned and held for 20 minutes. Review and sign the agreement in your account, then continue to payment.`,
   }, { status: 201, headers: { "Cache-Control": "no-store" } });
 }

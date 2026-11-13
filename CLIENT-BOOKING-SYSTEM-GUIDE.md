@@ -6,7 +6,7 @@
 
 **Audience:** J & J management and accommodation guests
 
-**Status:** Describes the intended automated booking service. The booking automation has been implemented in the project, but the new database migration and payment, email, domain, and property-policy setup must be completed and tested before it can be used for live reservations.
+**Status:** The application is being adjusted so guests can check availability, create a reservation, and read/sign its agreement without Ozow or email delivery being configured. Live reservation creation still requires the automatic-reservations migration and J & J's approved property policy. Payment remains pending until Ozow is configured.
 
 ## What the system is designed to do
 
@@ -48,10 +48,10 @@ The total is calculated and shown before payment. The property policy also sets 
 
 1. **Create an account and confirm the email address.** The guest signs up with an email and password, then follows the confirmation link sent to that email.
 2. **Choose accommodation and dates.** The guest selects the room type, stay type, arrival and departure dates, number of guests, and provides a contact phone number. An optional note can be included for practical stay information.
-3. **Check availability.** The system shows available units for each date in the range.
-4. **Reserve a room.** If a unit is available and online booking is enabled, the system rechecks inventory, assigns a physical room, calculates the price, creates the booking and invoice, prepares the agreement, and holds the room for 20 minutes.
+3. **Check availability.** The system shows available units for each date in the range. The guest can read the published guest rules and booking terms before continuing.
+4. **Reserve a room.** Once the reservation migration and approved property policy are in place, the system rechecks inventory, assigns a physical room, calculates the price, creates the booking and invoice, prepares the agreement, and holds the room for 20 minutes. This step does not require Ozow or email delivery to be configured.
 5. **Review and sign the agreement.** The guest opens the agreement in their account, reads it, types their full legal name, and checks the acceptance box. The system stores the signature evidence against that exact agreement version.
-6. **Pay online.** The guest continues to Ozow's hosted payment page and completes payment there.
+6. **Pay online.** When Ozow is configured, the guest continues to Ozow's hosted payment page. Until then, the guest can finish reviewing and signing, but payment cannot be processed and the booking remains unconfirmed.
 7. **Receive confirmation.** The app waits for Ozow's signed payment notification. A successful notification marks the booking confirmed, creates a paid receipt, and queues email notifications. A browser redirect alone is not treated as proof of payment.
 8. **Arrive and collect keys.** The guest presents the booking reference or account confirmation. Reception checks that the booking is confirmed and hands over the keys.
 
@@ -90,7 +90,7 @@ These are booking invoices and payment receipts. VAT registration, tax calculati
 
 The application queues email notifications for the guest and, for a new automatic room hold, the property notification address. Messages include the booking reference and relevant next steps. A successful payment notification includes a link back to the guest's account and receipt. Delivery uses Resend and a scheduled notification task; messages retry after temporary delivery failures.
 
-Email notifications are the automated channel in the current implementation. SMS and WhatsApp are not automatic booking-notification channels. The existing WhatsApp link is for direct enquiries.
+Email notifications are queued independently of reservation creation and are delivered when Resend and the scheduled sender are configured. Until then, queued messages are not delivered. SMS and WhatsApp are not automatic booking-notification channels. The existing WhatsApp link is for direct enquiries.
 
 ## Information collected and stored
 
@@ -130,7 +130,7 @@ The application's booking database does not currently define an automatic data-d
 
 ## Management's role
 
-Once the system is activated and the policy is approved, staff do not manually check each guest's dates, pick the room, enter the price, or prepare/sign each standard agreement. Management remains responsible for:
+Once the reservation migration is applied and the policy is approved, staff do not manually check each guest's dates, pick the room, enter the price, or prepare/sign each standard agreement. Missing Ozow configuration stops payment only; missing email configuration delays email delivery only. Management remains responsible for:
 
 - One-time approval of the legal business name, occupancy limits, deposit/cancellation terms, and standard agreement policy.
 - Keeping room inventory accurate and adding maintenance/owner-use blocks when needed.
@@ -140,15 +140,15 @@ Once the system is activated and the policy is approved, staff do not manually c
 
 ## Activation status and launch checklist
 
-This guide describes the intended automated service; it is not confirmation that online booking is live today. The project code and one-time booking policy screen are prepared, but the current Supabase project still needs the automatic-reservations database migration. The owner also needs to complete the property policy and configure the external providers.
+The project code includes availability, automatic room assignment, agreement preparation/signing, invoice creation, and payment integration. In the current Supabase project, migration 002 is still unapplied and the property policy is not yet approved, so automatic reservation creation is not live yet. Ozow is a separate payment-stage requirement; Resend and its scheduler are separate email-delivery requirements.
 
 Before inviting guests to make live online bookings, J & J should:
 
 1. Apply `supabase/migrations/202611130002_automatic_room_reservations.sql` to the Supabase project (the base booking schema is already applied there).
 2. Sign in to the admin area and complete the one-time booking policy with legally reviewed terms and actual occupancy limits.
-3. Configure and test the Ozow staging merchant, callback/webhook, amount matching, and settlement setup.
-4. Configure the public domain, Resend sender, and scheduled email-notification delivery.
+3. Configure and test the Ozow staging merchant, callback/webhook, amount matching, and settlement setup before accepting payment. Until this is done, guests may review/sign but cannot pay or receive a confirmed booking.
+4. Configure the public domain, Resend sender, and scheduled email-notification delivery; these are needed for email delivery, not to create a reservation.
 5. Complete end-to-end staging checks: availability, simultaneous attempts for the last room, automatic assignment, agreement signing, successful/failed payments, hold expiry, invoices, receipts, and guest emails.
 6. Approve a privacy notice and data-retention approach before collecting live guest information.
 
-Until those steps pass, guests should not be told that the automated payment-and-confirmation process is live. Existing older requests created before the automatic-reservation migration remain requests and may still need staff review.
+Until the migration and approved policy are in place, automatic room reservation is unavailable. After those are complete, the app can create and hold a room and let the guest sign even while Ozow is pending configuration; however, that stay is not confirmed until successful payment is verified. Existing older requests created before the automatic-reservation migration remain requests and may still need staff review.

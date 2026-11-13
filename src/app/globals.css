@@ -2112,6 +2112,21 @@ a:focus-visible {
 .booking-page-head .eyebrow { margin-top: 3.5rem; }
 .booking-page-head h1 { max-width: 720px; margin: 0.5rem 0 1rem; color: var(--forest-deep); font-family: Georgia, serif; font-size: clamp(2.7rem, 7vw, 4.7rem); font-weight: 400; letter-spacing: -0.045em; line-height: 0.98; }
 .booking-page-head > p:last-child { max-width: 600px; color: var(--ink-soft); line-height: 1.7; }
+.booking-terms-page { width: min(880px, 100% - 2rem); margin: 0 auto; padding: clamp(2rem, 6vw, 5rem) 0; }
+.booking-terms-header { display: grid; gap: 0.8rem; margin-bottom: 2rem; }
+.booking-terms-header > a:first-child, .booking-terms-footer > a:last-child { color: var(--forest); font-weight: 700; }
+.booking-terms-header h1 { max-width: 15ch; margin: 0; color: var(--forest-deep); font-family: Georgia, serif; font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 400; line-height: 1.05; }
+.booking-terms-header > p:last-child { max-width: 62ch; color: var(--ink-soft); line-height: 1.7; }
+.booking-terms-panel { display: grid; gap: 1rem; margin: 1rem 0; padding: clamp(1.1rem, 3vw, 2rem); border: 1px solid var(--line); border-radius: 18px; background: var(--white); box-shadow: 0 14px 42px #243b2b0d; }
+.booking-terms-panel h2 { margin: 0; color: var(--forest-deep); font-family: Georgia, serif; font-size: 1.8rem; font-weight: 400; }
+.booking-terms-panel h3 { margin: 0.5rem 0 0; color: var(--forest); font-size: 1rem; }
+.booking-terms-panel p, .booking-terms-rules { color: var(--ink-soft); font-size: 0.94rem; line-height: 1.7; }
+.booking-terms-panel-heading { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 1rem; }
+.guest-rules-preview { width: 100%; height: min(72vh, 760px); border: 1px solid var(--line); border-radius: 10px; background: #f3f1eb; }
+.booking-terms-rules { display: grid; gap: 0.5rem; margin: 0; padding-left: 1.25rem; }
+.booking-policy-preview p { margin: 0.5rem 0; }
+.booking-terms-footer { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; margin-top: 1.5rem; }
+.payment-setup-note { max-width: 18rem; margin: 0; color: #75412b; font-size: 0.8rem; line-height: 1.5; }
 
 .booking-card {
   padding: clamp(1.3rem, 4vw, 2.6rem);
@@ -2221,6 +2236,8 @@ a:focus-visible {
   .account-booking { grid-template-columns: 1fr; }
   .account-booking-actions { align-items: stretch; }
   .account-booking-actions .button { width: 100%; }
+  .guest-rules-preview { height: 68vh; }
+  .booking-terms-footer { align-items: stretch; flex-direction: column; }
   .calendar-day { min-height: 65px; padding: 0.35rem; }
   .calendar-day span { font-size: 0.62rem; }
   .calendar-weekdays { font-size: 0.68rem; }
