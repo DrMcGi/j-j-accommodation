@@ -36,6 +36,10 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
+
+# Scanned lease templates and other private business documents stay local.
+/private-documents/
 
 # vercel
 .vercel

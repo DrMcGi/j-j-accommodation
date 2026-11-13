@@ -260,10 +260,11 @@ export default function Home() {
             <a href="#services">What’s included</a>
             <a href="#tour">Room tours</a>
             <a href="#location">Find us</a>
+            <a href="/account">Your account</a>
           </nav>
 
-          <a className="header-cta" href="#contact">
-            Get in touch <Icon name="arrow" />
+          <a className="header-cta" href="/book">
+            Check availability <Icon name="arrow" />
           </a>
         </div>
       </header>
@@ -295,8 +296,8 @@ export default function Home() {
                 furnished place to settle in at Grootboom Farm.
               </p>
               <div className="hero-actions">
-                <a className="button button-dark" href="#stays">
-                  Explore accommodation <Icon name="arrow" />
+                <a className="button button-dark" href="/book">
+                  Check availability <Icon name="arrow" />
                 </a>
                 <a className="text-link" href="#location">
                   <Icon name="pin" /> Steelpoort, Limpopo
@@ -769,8 +770,8 @@ export default function Home() {
         </div>
       </footer>
 
-      <a className="mobile-booking" href={bookingUrl} rel="noreferrer" target="_blank">
-        Enquire on WhatsApp <Icon name="arrow" />
+      <a className="mobile-booking" href="/book">
+        Check availability <Icon name="arrow" />
       </a>
     </>
   );

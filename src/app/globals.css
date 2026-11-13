@@ -2095,6 +2095,137 @@ a:focus-visible {
   }
 }
 
+.booking-page {
+  min-height: 100vh;
+  padding: clamp(2.5rem, 7vw, 6rem) 22px 5rem;
+  background: radial-gradient(ellipse at 12% 5%, #e9eedf 0, transparent 34%), var(--paper);
+}
+
+.booking-page-head,
+.booking-card {
+  width: min(760px, 100%);
+  margin-inline: auto;
+}
+
+.booking-page-head { margin-bottom: 2rem; }
+.booking-page-head > a { color: var(--forest); font-weight: 700; text-decoration: none; }
+.booking-page-head .eyebrow { margin-top: 3.5rem; }
+.booking-page-head h1 { max-width: 720px; margin: 0.5rem 0 1rem; color: var(--forest-deep); font-family: Georgia, serif; font-size: clamp(2.7rem, 7vw, 4.7rem); font-weight: 400; letter-spacing: -0.045em; line-height: 0.98; }
+.booking-page-head > p:last-child { max-width: 600px; color: var(--ink-soft); line-height: 1.7; }
+
+.booking-card {
+  padding: clamp(1.3rem, 4vw, 2.6rem);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--white);
+  box-shadow: 0 18px 54px #243b2b12;
+}
+
+.booking-card form { display: grid; gap: 1rem; }
+.booking-card label { display: grid; gap: 0.42rem; color: #435145; font-size: 0.82rem; font-weight: 700; }
+.booking-card input:not([type="checkbox"]), .booking-card select, .booking-card textarea {
+  width: 100%; min-height: 48px; padding: 0.75rem 0.85rem; border: 1px solid #d6dbcf; border-radius: 9px; background: #fffefa; color: var(--ink); font: inherit; font-size: 0.95rem;
+}
+.booking-card textarea { min-height: 90px; resize: vertical; }
+.booking-card input:focus, .booking-card select:focus, .booking-card textarea:focus { outline: 2px solid var(--leaf); outline-offset: 1px; }
+.booking-card .button { justify-content: center; min-height: 46px; border: 0; cursor: pointer; font: inherit; font-weight: 700; }
+.booking-card .button:disabled { cursor: wait; opacity: 0.58; }
+.booking-topline, .account-heading { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 1.5rem; color: var(--ink-soft); font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; }
+.booking-room-description, .booking-terms-note, .booking-account-note { margin: -0.2rem 0 0; color: var(--ink-soft); font-size: 0.84rem; line-height: 1.6; }
+.booking-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.availability-result { display: grid; gap: 0.7rem; padding: 1rem; border-radius: 10px; font-size: 0.86rem; }
+.availability-result > div { display: flex; flex-wrap: wrap; gap: 0.4rem 0.8rem; }
+.availability-result.is-available { background: #edf4e8; color: #294b34; }
+.availability-result.is-unavailable { background: #f8ece4; color: #75412b; }
+.booking-account-note a, .booking-empty a { color: var(--forest); font-weight: 700; }
+.booking-terms-note { margin-top: 1.2rem; padding-top: 1rem; border-top: 1px solid var(--line); font-size: 0.77rem; }
+.optional-label { color: #858d82; font-weight: 400; }
+.form-message { padding: 0.85rem 1rem; border-radius: 9px; font-size: 0.88rem; line-height: 1.5; }
+.form-message.is-error { background: #fae9e5; color: #803c31; }
+.form-message.is-success { background: #edf4e8; color: #294b34; }
+.form-message a { color: inherit; font-weight: 700; }
+.booking-empty { text-align: center; padding: 2rem 0; }
+.account-card { width: min(920px, 100%); }
+.account-heading { align-items: center; letter-spacing: 0; }
+.account-heading span { font-size: 0.7rem; letter-spacing: 0.14em; }
+.account-heading h2 { margin: 0.3rem 0; overflow-wrap: anywhere; font-size: 1.15rem; }
+.account-bookings { display: grid; gap: 1rem; }
+.account-booking { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 1.3rem; padding: 1.25rem 0; border-top: 1px solid var(--line); }
+.account-booking > div:first-child > span, .admin-request-head > div > span { color: var(--ink-soft); font-size: 0.76rem; font-weight: 700; letter-spacing: 0.08em; }
+.account-booking h3 { margin: 0.45rem 0; }
+.account-booking p { color: var(--ink-soft); font-size: 0.88rem; }
+.account-booking-actions { display: flex; flex-direction: column; align-items: flex-end; gap: 0.6rem; }
+.booking-status { display: inline-block; padding: 0.3rem 0.65rem; border-radius: 99px; background: #eef0eb; color: #465145; font-size: 0.72rem; text-transform: capitalize; }
+.status-confirmed, .status-paid { background: #e8f2e4; color: #2c5737; }
+.status-declined, .status-expired, .status-cancelled { background: #f7e9e4; color: #804131; }
+.account-auth-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+.account-contract { width: min(480px, 100%); display: grid; gap: 0.7rem; margin-top: 0.5rem; padding-top: 0.75rem; border-top: 1px solid var(--line); }
+.account-contract details { min-width: 0; }
+.account-contract summary { cursor: pointer; color: var(--forest); font-size: 0.83rem; font-weight: 700; }
+.account-contract pre { max-height: 350px; overflow: auto; white-space: pre-wrap; color: #4c564b; font: 0.78rem/1.55 Arial, sans-serif; }
+.account-contract .agreement-check { display: flex; grid-template-columns: auto 1fr; align-items: start; font-weight: 400; line-height: 1.5; }
+.account-contract .agreement-check input { margin-top: 0.2rem; }
+.account-contract .form-message { margin: 0; }
+
+.admin-page .booking-card { width: min(1120px, 100%); }
+.admin-tabs { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid var(--line); }
+.admin-tabs button { padding: 0.65rem 0.95rem; border: 1px solid var(--line); border-radius: 99px; background: transparent; color: var(--ink); cursor: pointer; font: inherit; font-size: 0.84rem; }
+.admin-tabs button.is-active { border-color: var(--forest); background: var(--forest); color: white; }
+.calendar-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.3rem; }
+.calendar-toolbar h2 { margin: 0; color: var(--forest-deep); font-family: Georgia, serif; font-weight: 400; }
+.availability-calendar { overflow: hidden; margin-top: 1.2rem; border: 1px solid var(--line); border-radius: 12px; }
+.calendar-weekdays, .calendar-days { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); }
+.calendar-weekdays { background: #f0f1e9; color: #596655; font-size: 0.76rem; font-weight: 700; }
+.calendar-weekdays span { padding: 0.75rem 0.45rem; text-align: center; }
+.calendar-day { min-height: 85px; padding: 0.5rem; border-top: 1px solid var(--line); border-right: 1px solid var(--line); background: #eff6e9; }
+.calendar-day:nth-child(7n) { border-right: 0; }
+.calendar-day.is-outside { background: #faf9f5; color: #a3a99f; }
+.calendar-day span { display: block; margin-top: 0.6rem; color: #486245; font-size: 0.7rem; }
+.calendar-legend { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 0.8rem; color: var(--ink-soft); font-size: 0.75rem; }
+.calendar-legend span { display: flex; align-items: center; gap: 0.35rem; }
+.calendar-legend i { width: 10px; height: 10px; border-radius: 50%; background: #c9dec0; }
+.calendar-legend .legend-full { background: #e3b7a3; }
+.admin-requests, .admin-inventory { display: grid; gap: 1rem; }
+.admin-requests > h2, .admin-inventory > h2 { margin: 0.4rem 0; color: var(--forest-deep); font-family: Georgia, serif; font-size: 2rem; font-weight: 400; }
+.admin-request { padding: 1.25rem 0; border-top: 1px solid var(--line); }
+.admin-contract-preview { max-height: 460px; overflow: auto; padding: 0.85rem; border-radius: 8px; background: #f5f4ef; color: #475247; font: 0.79rem/1.55 Arial, sans-serif; white-space: pre-wrap; }
+.admin-request-head { display: flex; justify-content: space-between; gap: 1rem; }
+.admin-request-head h3 { margin: 0.5rem 0; }
+.admin-request-head p { margin: 0.4rem 0; color: var(--ink-soft); font-size: 0.85rem; }
+.review-form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: end; gap: 0.85rem; margin-top: 1rem; }
+.review-form label { font-size: 0.76rem; }
+.agreement-tools { margin-top: 1rem; padding-top: 0.8rem; border-top: 1px dashed var(--line); }
+.agreement-tools h4 { margin: 0.4rem 0; color: var(--forest); }
+.inventory-type-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.8rem; }
+.inventory-type { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1rem; border: 1px solid var(--line); border-radius: 10px; }
+.inventory-type > div { display: grid; gap: 0.3rem; }
+.inventory-type > div span, .inventory-unit-list small { color: var(--ink-soft); font-size: 0.77rem; }
+.inventory-type .toggle { display: flex; grid-template-columns: auto 1fr; align-items: center; white-space: nowrap; }
+.inventory-unit-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.5rem; }
+.inventory-unit-list label { display: flex; align-items: start; gap: 0.5rem; padding: 0.7rem; border: 1px solid var(--line); border-radius: 8px; }
+.inventory-unit-list span { display: grid; gap: 0.2rem; }
+.admin-inline-form { display: flex !important; align-items: end; flex-wrap: wrap; gap: 0.75rem !important; padding: 1rem 0; border-top: 1px solid var(--line); }
+.admin-inline-form h3 { flex: 1 0 100%; margin: 0; }
+.admin-inline-form > *:not(h3) { flex: 1 1 140px; }
+.maintenance-block { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.75rem 0; border-top: 1px solid var(--line); color: var(--ink-soft); font-size: 0.83rem; }
+
+@media (max-width: 680px) {
+  .booking-page { padding-inline: 16px; }
+  .booking-page-head .eyebrow { margin-top: 2rem; }
+  .booking-fields, .review-form, .inventory-type-grid { grid-template-columns: 1fr; }
+  .account-booking { grid-template-columns: 1fr; }
+  .account-booking-actions { align-items: stretch; }
+  .account-booking-actions .button { width: 100%; }
+  .calendar-day { min-height: 65px; padding: 0.35rem; }
+  .calendar-day span { font-size: 0.62rem; }
+  .calendar-weekdays { font-size: 0.68rem; }
+  .calendar-weekdays span { padding-inline: 0; }
+  .inventory-unit-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .admin-request-head { display: block; }
+  .maintenance-block { align-items: flex-start; flex-direction: column; }
+  .admin-tabs button { flex: 1 1 100%; }
+}
+
 @media (prefers-reduced-motion: reduce) and (max-width: 680px) {
   .tour-scroll-stage {
     grid-template-columns: 1fr;

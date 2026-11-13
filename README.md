@@ -45,7 +45,13 @@ Open **Room tours** in the site navigation and select a tour. The section opens 
 
 No upload was named `vid.mov`; the 5:51 `grootboom-farm-video.MOV` was treated as the intended original room-tour source. These are scroll-controlled views along recorded camera paths, not free-look 3D or 360-degree tours. Original HEIC and MOV uploads remain local and are ignored by Git; the website uses optimized WebP assets. A genuinely explorable 3D or Gaussian-splat tour will require suitable capture media.
 
-Availability, online bookings, document signing, payment processing, invoicing, notifications, and an admin calendar are future project phases. Playwright is a development dependency and is used to review desktop and mobile presentation.
+## Booking platform
+
+The site now includes live availability, booking requests, customer accounts, an administration calendar, unit inventory and maintenance blocks, booking review, digital agreements with customer and management signatures, Ozow One API hosted checkout, automatic paid receipts, printable booking invoices, and email notifications through a queued outbox. The 9 bachelor and 4 two-bedroom units are shared inventory for overnight and monthly stays. Public requests remain unconfirmed until management assigns a physical unit and confirms the final amount.
+
+The integration code is ready for a configured staging environment. It is not live yet: no Supabase project, Ozow merchant/site credentials, verified email sender, public domain or approved final rental terms were supplied. Setup, environment keys, initial administrator setup, webhook configuration, signature workflow and release checks are documented in [BOOKING-PLATFORM.md](./BOOKING-PLATFORM.md). Copy `.env.example` to the chosen host's secret settings; do not commit credentials. Apply the SQL migration in `supabase/migrations/` to a separate staging project and exercise the full booking-to-payment flow before enabling production.
+
+Monthly prices come from the current public site. Management enters the final price before checkout, so partial-month calculations, deposits and refunds are not guessed. Overnight is currently shown at R850 per night; confirm whether that price is per room or per bed before automating it. The supplied `GUEST RULES.pdf` provides stay rules. Seven scanned pages of the residential lease template are stored locally in the Git-ignored `private-documents/lease-template-scans/` folder; page 16 was not supplied. The generated agreement is a versioned draft that combines the booking, house rules and management-entered deposit/cancellation/legal lessor terms; obtain management/legal approval before sending real agreements. Playwright is a development dependency and is used to review desktop and mobile presentation.
 
 ## Two-bedroom rental tour
 
