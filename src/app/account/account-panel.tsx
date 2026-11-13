@@ -61,13 +61,16 @@ export default function AccountPanel() {
     event.preventDefault(); setLoading(true); setMessage(""); setError("");
     if (!client) { setError("Account sign-in is not configured yet."); setLoading(false); return; }
     const form = new FormData(event.currentTarget);
+    const submitter = (event.nativeEvent as SubmitEvent).submitter as HTMLButtonElement | null;
+    const mode = submitter?.name === "mode" ? submitter.value : "signin";
     const password = String(form.get("password"));
-    const result = form.get("mode") === "signup"
+    const result = mode === "signup"
       ? await client.auth.signUp({ email, password, options: { emailRedirectTo: `${window.location.origin}/account` } })
       : await client.auth.signInWithPassword({ email, password });
     setLoading(false);
     if (result.error) setError(result.error.message);
-    else if (form.get("mode") === "signup" && !result.data.session) setMessage("Check your email to confirm your account, then sign in here.");
+    else if (mode === "signup" && !result.data.session) setMessage("Account created. Check your email and follow the confirmation link before signing in.");
+    else if (mode === "signup") { setMessage("Account created and confirmed. You’re signed in."); await refresh(); }
     else { setMessage("You’re signed in."); await refresh(); }
   }
   async function pay(bookingId: string) {
