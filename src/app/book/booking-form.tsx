@@ -2,6 +2,7 @@
 
 import { createBrowserClient } from "@supabase/ssr";
 import { FormEvent, useEffect, useMemo, useState } from "react";
+import { calculateStayPriceCents } from "@/lib/booking-pricing";
 import { PUBLIC_ROOM_CATALOG, type PublicRoomType } from "@/lib/room-catalog";
 
 type Availability = { service_date: string; available_units: number; total_units: number }[];
@@ -72,6 +73,9 @@ export default function BookingForm() {
   }, []);
 
   const chosenRoom = useMemo(() => rooms.find((room) => room.slug === roomType), [rooms, roomType]);
+  const quote = chosenRoom && startDate && endDate
+    ? calculateStayPriceCents(chosenRoom, stayPeriod, startDate, endDate)
+    : null;
   async function checkAvailability() {
     setError(""); setMessage(""); setAvailability([]);
     if (!roomType || !startDate || !endDate || endDate <= startDate) { setError("Choose a room type and valid dates first."); return; }
@@ -122,6 +126,7 @@ export default function BookingForm() {
         <label>Stay type<select value={stayPeriod} onChange={(event) => { setStayPeriod(event.target.value as "night" | "month"); setAvailability([]); }}><option value="month">Monthly · R{((chosenRoom?.rate_cents ?? 0) / 100).toLocaleString("en-ZA")} per started month</option><option value="night">Overnight · R{(((chosenRoom?.bed_count ?? 1) * (chosenRoom?.overnight_rate_cents_per_bed ?? 85_000)) / 100).toLocaleString("en-ZA")} per night ({chosenRoom?.bed_count ?? 1} bed{(chosenRoom?.bed_count ?? 1) === 1 ? "" : "s"})</option></select></label>
         {chosenRoom && <p className="booking-room-description">The selected room&apos;s dates are shared inventory across overnight and monthly stays. Monthly charges round up to each started month; only the selected dates are blocked.</p>}
         <div className="booking-fields"><label>Arrival<input type="date" value={startDate} min={new Date().toISOString().slice(0, 10)} onChange={(event) => { setStartDate(event.target.value); setAvailability([]); }} required /></label><label>Departure<input type="date" value={endDate} min={startDate || new Date().toISOString().slice(0, 10)} onChange={(event) => { setEndDate(event.target.value); setAvailability([]); }} required /></label></div>
+        {quote && <div className="booking-price-estimate" aria-live="polite"><span>Estimated accommodation total</span><strong>{(quote.amountCents / 100).toLocaleString("en-ZA", { style: "currency", currency: "ZAR" })}</strong><small>{quote.units} {quote.unitLabel} · based on the selected room and dates. The exact date range is checked again when you reserve.</small></div>}
         <button className="button button-light" type="button" onClick={checkAvailability}>Check live availability</button>
         {availability.length > 0 && <div className={`availability-result ${availableAllDates ? "is-available" : "is-unavailable"}`}><strong>{availableAllDates ? `${Math.min(...availability.map((day) => day.available_units))} ${roomType === "bachelor" ? "bachelor" : "two-bedroom"} room${Math.min(...availability.map((day) => day.available_units)) === 1 ? "" : "s"} available for the full stay` : "Fully booked for at least one selected date"}</strong><div>{availability.map((day) => <span key={day.service_date}>{new Date(`${day.service_date}T12:00:00`).toLocaleDateString("en-ZA", { day: "numeric", month: "short" })}: {day.available_units} of {day.total_units} available</span>)}</div></div>}
         <div className="booking-fields"><label>Full name<input name="name" autoComplete="name" minLength={2} maxLength={160} required /></label><label>Email<input name="email" type="email" autoComplete="email" maxLength={254} required /></label></div>

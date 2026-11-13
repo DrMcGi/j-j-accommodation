@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useMemo, useState } from "react";
+import { calculateStayPriceCents } from "@/lib/booking-pricing";
 import BookingPolicySetup from "./booking-policy-setup";
 
 type RoomType = { id: string; slug: string; name: string; is_active: boolean };
@@ -10,7 +11,8 @@ type Booking = {
   id: string; reference: string; guest_name: string; guest_email: string; guest_phone: string;
   guest_count: number; room_type_id: string; start_date: string; end_date: string; stay_period: string;
   status: string; amount_cents: number | null; admin_notes: string;
-  room_types: { name: string } | null; room_units: { unit_name: string } | null;
+  room_types: { name: string; slug: string; rate_cents: number; bed_count: number; overnight_rate_cents_per_bed: number } | null;
+  room_units: { unit_name: string } | null;
   contract_documents: Contract[];
 };
 type Block = { id: string; start_date: string; end_date: string; room_units: { unit_name: string; room_types: { name: string } } };
@@ -18,6 +20,7 @@ type Inventory = { roomTypes: RoomType[]; units: Unit[]; blocks: Block[] };
 type Availability = { service_date: string; available_units: number; total_units: number }[];
 
 const iso = (date: Date) => `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+const money = (cents: number) => (cents / 100).toLocaleString("en-ZA", { style: "currency", currency: "ZAR" });
 
 async function fetchDashboard() {
   const [bookingResponse, inventoryResponse] = await Promise.all([
@@ -93,10 +96,9 @@ export default function AdminPanel() {
   }
 
   async function decide(booking: Booking, decision: "accept" | "decline", values: FormData) {
-    const amount = Number(values.get("amount"));
     await post("/api/admin/bookings", "PATCH", {
       bookingId: booking.id, decision, roomUnitId: values.get("unitId"),
-      amountCents: Math.round(amount * 100), adminNotes: values.get("notes"),
+      adminNotes: values.get("notes"),
     });
   }
 
@@ -117,7 +119,7 @@ export default function AdminPanel() {
         <div className="admin-request-head"><div><span>{booking.reference} · {booking.status.replaceAll("_", " ")}</span><h3>{booking.guest_name} · {booking.room_types?.name}</h3><p>{booking.start_date} to {booking.end_date} · {booking.stay_period} · {booking.guest_count} guest(s)</p><p><a href={`mailto:${booking.guest_email}`}>{booking.guest_email}</a> · <a href={`tel:${booking.guest_phone}`}>{booking.guest_phone}</a></p>{booking.admin_notes && <p>Note: {booking.admin_notes}</p>}</div>{booking.room_units && <strong>{booking.room_units.unit_name}</strong>}</div>
         {booking.status === "requested" && <form className="review-form" onSubmit={(event) => { event.preventDefault(); void decide(booking, "accept", new FormData(event.currentTarget)); }}>
           <label>Assign unit<select name="unitId" required defaultValue="">{units.filter((unit) => unit.is_active && unit.room_type_id === booking.room_type_id).map((unit) => <option value={unit.id} key={unit.id}>{unit.unit_name}</option>)}</select></label>
-          <label>Final price (ZAR)<input name="amount" type="number" min="1" step="0.01" required defaultValue={booking.stay_period === "night" ? "850" : undefined} /></label>
+          <p className="admin-price-quote"><strong>Calculated quote:</strong> {booking.room_types && (() => { const quote = calculateStayPriceCents(booking.room_types, booking.stay_period as "night" | "month", booking.start_date, booking.end_date); return quote ? `${money(quote.amountCents)} for ${quote.units} ${quote.unitLabel}` : "Unable to calculate; review the dates and rates."; })()}</p>
           <label>Admin notes<input name="notes" maxLength={2000} defaultValue={booking.admin_notes} /></label>
           <button className="button button-dark" disabled={busy}>Approve and reserve for payment</button>
           <button className="button button-light" disabled={busy} type="button" onClick={(event) => { const form = event.currentTarget.form; if (form) void decide(booking, "decline", new FormData(form)); }}>Decline</button>

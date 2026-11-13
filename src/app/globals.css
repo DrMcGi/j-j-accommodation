@@ -2152,6 +2152,10 @@ a:focus-visible {
 .availability-result > div { display: flex; flex-wrap: wrap; gap: 0.4rem 0.8rem; }
 .availability-result.is-available { background: #edf4e8; color: #294b34; }
 .availability-result.is-unavailable { background: #f8ece4; color: #75412b; }
+.booking-price-estimate { display: grid; gap: 0.2rem; padding: 1rem 1.1rem; border: 1px solid var(--line); border-radius: 10px; background: #f5f3ed; }
+.booking-price-estimate > span { color: var(--ink-soft); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+.booking-price-estimate > strong { color: var(--forest-deep); font-family: Georgia, serif; font-size: 1.6rem; font-weight: 400; }
+.booking-price-estimate > small { color: var(--ink-soft); font-size: 0.8rem; line-height: 1.5; }
 .booking-account-note a, .booking-empty a { color: var(--forest); font-weight: 700; }
 .booking-terms-note { margin-top: 1.2rem; padding-top: 1rem; border-top: 1px solid var(--line); font-size: 0.77rem; }
 .optional-label { color: #858d82; font-weight: 400; }
@@ -2214,6 +2218,7 @@ a:focus-visible {
 .admin-request-head p { margin: 0.4rem 0; color: var(--ink-soft); font-size: 0.85rem; }
 .review-form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: end; gap: 0.85rem; margin-top: 1rem; }
 .review-form label { font-size: 0.76rem; }
+.admin-price-quote { margin: 0; align-self: center; color: var(--forest-deep); font-size: 0.88rem; }
 .agreement-tools { margin-top: 1rem; padding-top: 0.8rem; border-top: 1px dashed var(--line); }
 .agreement-tools h4 { margin: 0.4rem 0; color: var(--forest); }
 .inventory-type-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.8rem; }
