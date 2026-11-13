@@ -5,6 +5,8 @@ export type PublicRoomType = {
   rate_period: string;
   rate_cents: number;
   max_guests: number;
+  bed_count: number;
+  overnight_rate_cents_per_bed: number;
 };
 
 // Publicly advertised rates remain visible before the private booking service
@@ -17,6 +19,8 @@ export const PUBLIC_ROOM_CATALOG: PublicRoomType[] = [
     rate_period: "month",
     rate_cents: 750_000,
     max_guests: 20,
+    bed_count: 1,
+    overnight_rate_cents_per_bed: 85_000,
   },
   {
     slug: "two-bedroom",
@@ -25,5 +29,7 @@ export const PUBLIC_ROOM_CATALOG: PublicRoomType[] = [
     rate_period: "month",
     rate_cents: 1_350_000,
     max_guests: 20,
+    bed_count: 2,
+    overnight_rate_cents_per_bed: 85_000,
   },
 ];

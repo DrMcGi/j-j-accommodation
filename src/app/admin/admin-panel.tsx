@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useMemo, useState } from "react";
+import BookingPolicySetup from "./booking-policy-setup";
 
 type RoomType = { id: string; slug: string; name: string; is_active: boolean };
 type Unit = { id: string; unit_name: string; room_type_id: string; is_active: boolean; room_types: { name: string } };
@@ -101,7 +102,7 @@ export default function AdminPanel() {
 
   return <section className="booking-card admin-card">
     <div className="admin-tabs" role="tablist">
-      {[["calendar", "Calendar"], ["requests", "Booking requests"], ["inventory", "Rooms & availability"]].map(([id, label]) => <button aria-selected={tab === id} className={tab === id ? "is-active" : ""} key={id} onClick={() => setTab(id)} role="tab">{label}</button>)}
+      {[["calendar", "Calendar"], ["requests", "Reservations"], ["inventory", "Rooms & availability"], ["setup", "Booking setup"]].map(([id, label]) => <button aria-selected={tab === id} className={tab === id ? "is-active" : ""} key={id} onClick={() => setTab(id)} role="tab">{label}</button>)}
     </div>
     {error && <p className="form-message is-error" role="alert">{error} {error.includes("Sign in") && <a href="/account">Sign in</a>}</p>}
     {success && <p className="form-message is-success" role="status">{success}</p>}
@@ -130,6 +131,7 @@ export default function AdminPanel() {
         <BlockDates units={units.filter((unit) => unit.is_active)} post={post} busy={busy} />
         <h3>Maintenance and owner-use blocks</h3>{inventory.blocks.length ? inventory.blocks.map((block) => <div className="maintenance-block" key={block.id}><span>{block.room_units.room_types.name} · {block.room_units.unit_name}: {block.start_date} to {block.end_date} (end date exclusive)</span><button className="button button-light" disabled={busy} onClick={() => void post("/api/admin/inventory", "DELETE", { blockId: block.id })}>Release block</button></div>) : <p>No upcoming maintenance blocks.</p>}
       </section>}
+      {tab === "setup" && <BookingPolicySetup />}
     </>}
   </section>;
 }

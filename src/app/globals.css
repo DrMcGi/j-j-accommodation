@@ -2186,6 +2186,11 @@ a:focus-visible {
 .calendar-legend i { width: 10px; height: 10px; border-radius: 50%; background: #c9dec0; }
 .calendar-legend .legend-full { background: #e3b7a3; }
 .admin-requests, .admin-inventory { display: grid; gap: 1rem; }
+.admin-policy { display: grid; gap: 1rem; max-width: 56rem; }
+.admin-policy h2 { margin: 0.4rem 0; color: var(--forest-deep); font-family: Georgia, serif; font-size: 2rem; font-weight: 400; }
+.admin-policy > p { color: var(--ink-soft); }
+.booking-policy-approval { display: grid !important; grid-template-columns: auto 1fr; align-items: start; gap: 0.7rem !important; padding: 1rem; border: 1px solid var(--line); border-radius: 0.75rem; background: var(--canvas); }
+.booking-policy-approval input { margin-top: 0.3rem; }
 .admin-requests > h2, .admin-inventory > h2 { margin: 0.4rem 0; color: var(--forest-deep); font-family: Georgia, serif; font-size: 2rem; font-weight: 400; }
 .admin-request { padding: 1.25rem 0; border-top: 1px solid var(--line); }
 .admin-contract-preview { max-height: 460px; overflow: auto; padding: 0.85rem; border-radius: 8px; background: #f5f4ef; color: #475247; font: 0.79rem/1.55 Arial, sans-serif; white-space: pre-wrap; }
