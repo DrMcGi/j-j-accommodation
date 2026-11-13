@@ -42,13 +42,10 @@ const SOURCE_FRAMES = Array.from(
 // Angle 1 keeps original source IDs 1-31 after earlier approved cuts.
 const PROPERTY_ANGLE_ONE_FRAMES = SOURCE_FRAMES.filter((frame) => frame <= 31);
 // The new angle plays the retained source IDs 92 down to 70 in reverse order.
-const PROPERTY_ANGLE_TWO_FOLDER_FRAMES = SOURCE_FRAMES.filter(
-  (frame) => frame > 31 && frame <= 94,
-);
-const PROPERTY_ANGLE_TWO_FRAMES = PROPERTY_ANGLE_TWO_FOLDER_FRAMES.filter(
-  (frame) => frame >= 70 && frame <= 92,
+const PROPERTY_ANGLE_TWO_FRAMES = SOURCE_FRAMES.filter(
+  (frame) => frame >= 76 && frame <= 92,
 ).reverse();
-const PROPERTY_ANGLE_THREE_FRAME_COUNT = 28;
+const PROPERTY_ANGLE_THREE_FRAME_COUNT = 25;
 const PROPERTY_FRAME_COUNT =
   PROPERTY_ANGLE_ONE_FRAMES.length +
   PROPERTY_ANGLE_TWO_FRAMES.length +
@@ -70,7 +67,7 @@ const PROPERTY_SCENES: readonly TourScene[] = [
     end: PROPERTY_ANGLE_TWO_END,
     label: "FULL PROPERTY - ANGLE 2",
     title: "Follow the walkway from the other end.",
-    description: "This reverse-ordered pass runs from source frame 92 back to 70, creating a forward-moving view from the opposite direction.",
+    description: "This reverse-ordered pass runs from source frame 92 back to 76, creating a forward-moving view from the opposite direction.",
   },
   {
     end: 1,
@@ -80,8 +77,7 @@ const PROPERTY_SCENES: readonly TourScene[] = [
   },
 ];
 
-const BACHELOR_SOURCE_FRAMES = SOURCE_FRAMES.filter((frame) => frame > 94);
-const BACHELOR_FRAME_COUNT = BACHELOR_SOURCE_FRAMES.length;
+const BACHELOR_FRAME_COUNT = 122;
 const BACHELOR_SCENES: readonly TourScene[] = [
   {
     end: 26 / (BACHELOR_FRAME_COUNT - 1),
@@ -96,7 +92,7 @@ const BACHELOR_SCENES: readonly TourScene[] = [
     description: "Move from the kitchen and seating area toward the sleeping space.",
   },
   {
-    end: 136 / (BACHELOR_FRAME_COUNT - 1),
+    end: 101 / (BACHELOR_FRAME_COUNT - 1),
     label: "BACHELOR ROOM",
     title: "Take a closer look at the room.",
     description: "Follow the camera around the bedroom and its furnishings.",
@@ -109,22 +105,22 @@ const BACHELOR_SCENES: readonly TourScene[] = [
   },
 ];
 
-const TWO_BEDROOM_FRAME_COUNT = 172;
+const TWO_BEDROOM_FRAME_COUNT = 112;
 const TWO_BEDROOM_SCENES: readonly TourScene[] = [
   {
-    end: 26 / (TWO_BEDROOM_FRAME_COUNT - 1),
+    end: 2 / (TWO_BEDROOM_FRAME_COUNT - 1),
     label: "THE APPROACH",
     title: "Come in to Unit 3.",
     description: "Begin at the accommodation walkway and head toward the unit.",
   },
   {
-    end: 120 / (TWO_BEDROOM_FRAME_COUNT - 1),
+    end: 71 / (TWO_BEDROOM_FRAME_COUNT - 1),
     label: "LIVING AND BEDROOMS",
     title: "Explore the furnished interior.",
     description: "Move through the living area and into the bedrooms.",
   },
   {
-    end: 149 / (TWO_BEDROOM_FRAME_COUNT - 1),
+    end: 95 / (TWO_BEDROOM_FRAME_COUNT - 1),
     label: "BEDROOMS",
     title: "Take a closer look at the sleeping spaces.",
     description: "Continue along the recorded path through the bedroom area.",
@@ -173,9 +169,7 @@ export function frameSource(index: number, tour: TourKey) {
 
   const afterAngleOne = index - PROPERTY_ANGLE_ONE_FRAMES.length;
   if (afterAngleOne < PROPERTY_ANGLE_TWO_FRAMES.length) {
-    const sourceFrame = PROPERTY_ANGLE_TWO_FRAMES[afterAngleOne];
-    const folderIndex = PROPERTY_ANGLE_TWO_FOLDER_FRAMES.indexOf(sourceFrame) + 1;
-    return `/images/tours/full-property/angle-2/frame-${String(folderIndex).padStart(3, "0")}.webp`;
+    return `/images/tours/full-property/angle-2/frame-${String(afterAngleOne + 1).padStart(3, "0")}.webp`;
   }
 
   const angleThreeFrame =

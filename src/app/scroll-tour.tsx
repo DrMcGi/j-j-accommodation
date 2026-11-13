@@ -10,7 +10,7 @@ export default function ScrollTour() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
   const progressFillRef = useRef<HTMLSpanElement>(null);
-  const [selectedTour, setSelectedTour] = useState<TourKey>("two-bedroom");
+  const [selectedTour, setSelectedTour] = useState<TourKey>("property");
   const [activeScene, setActiveScene] = useState(0);
   const [isReady, setIsReady] = useState(false);
   const [frameError, setFrameError] = useState(false);
@@ -200,19 +200,6 @@ export default function ScrollTour() {
 
         <div aria-label="Choose a room tour" className="tour-selector" role="group">
           <button
-            aria-pressed={selectedTour === "two-bedroom"}
-            className="tour-selector-button"
-            onClick={() => {
-              setSelectedTour("two-bedroom");
-              setActiveScene(0);
-              setIsReady(false);
-              setFrameError(false);
-            }}
-            type="button"
-          >
-            Two-bedroom rental
-          </button>
-          <button
             aria-pressed={selectedTour === "property"}
             className="tour-selector-button"
             onClick={() => {
@@ -224,6 +211,19 @@ export default function ScrollTour() {
             type="button"
           >
             Full property walkthrough
+          </button>
+          <button
+            aria-pressed={selectedTour === "two-bedroom"}
+            className="tour-selector-button"
+            onClick={() => {
+              setSelectedTour("two-bedroom");
+              setActiveScene(0);
+              setIsReady(false);
+              setFrameError(false);
+            }}
+            type="button"
+          >
+            Two-bedroom rental
           </button>
           <button
             aria-pressed={selectedTour === "bachelor"}

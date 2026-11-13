@@ -1,17 +1,26 @@
 # Two-bedroom rental tour sequence
 
-Status: 172-frame sequence connected to the Room tours section. The first 28 frames from the extracted sequence have been reassigned to the full-property tour's second angle and are no longer used by the room tour.
+Status: 112-frame sequence connected to the Room tours section. The original 172-frame room sequence has been curated using the requested frame cuts and relabeled consecutively for playback.
 
-## Current source map
+## Playback order and relabeling
 
-| Source video | Current room-tour frames | Previous extracted frame numbers | Frames |
-| --- | ---: | ---: | ---: |
-| `IMG_4552.MOV` | `frame-0001.webp` to `frame-0027.webp` | 29-55 | 27 |
-| `IMG_4554.MOV` | `frame-0028.webp` to `frame-0121.webp` | 56-149 | 94 |
-| `IMG_4555.MOV` | `frame-0122.webp` to `frame-0150.webp` | 150-178 | 29 |
-| `IMG_4556.MOV` | `frame-0151.webp` to `frame-0172.webp` | 179-200 | 22 |
+The following table maps each new output range to its frame number in the sequence before this edit. Any omitted input numbers are intentional skips.
 
-The first 28 frames formerly numbered `frame-0001.webp` to `frame-0028.webp` are now stored in `public/images/tours/full-property/angle-2/`. They come from the start of `IMG_4552.MOV` and are part of the full-property walkthrough, not the two-bedroom room sequence.
+| New playback frames | Previous sequence frames | Count |
+| --- | ---: | ---: |
+| `frame-0001.webp` to `frame-0003.webp` | 10-12 | 3 |
+| `frame-0004.webp` to `frame-0044.webp` | 28-68 | 41 |
+| `frame-0045.webp` | 72 | 1 |
+| `frame-0046.webp` to `frame-0069.webp` | 78-101 | 24 |
+| `frame-0070.webp` | 103 | 1 |
+| `frame-0071.webp` | 105 | 1 |
+| `frame-0072.webp` | 106 | 1 |
+| `frame-0073.webp` to `frame-0096.webp` | 126-149 | 24 |
+| `frame-0097.webp` to `frame-0112.webp` | 157-172 | 16 |
+
+Thus playback starts at old frame 10, plays through 12, jumps to 28-68, retains 72, jumps to 78-101, retains 103, 105, and 106, jumps to 126-149, then resumes at 157 through the end. Old frames 1-9, 13-27, 69-71, 73-77, 102, 104, 107-125, and 150-156 are excluded.
+
+The prior sequence's source-video mapping was: old frames 1-27 from `IMG_4552.MOV` extracted frames 29-55; old frames 28-121 from `IMG_4554.MOV` extracted frames 56-149; old frames 122-150 from `IMG_4555.MOV` extracted frames 150-178; and old frames 151-172 from `IMG_4556.MOV` extracted frames 179-200. The new numbering follows the retained playback order above.
 
 ## Frame format
 
@@ -20,4 +29,4 @@ The first 28 frames formerly numbered `frame-0001.webp` to `frame-0028.webp` are
 - Source video is HDR/HLG; frames are tone-mapped to BT.709 for browser display.
 - Original MOV files were left unchanged.
 
-The two-bedroom player loads only the 172 numbered files in this folder. Refine the transitions and frame cuts with the owner before further changes.
+The two-bedroom player loads only the 112 consecutively numbered files in this folder. `src/app/tour-sequences.ts` defines the player count and scene transitions.

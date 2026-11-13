@@ -35,11 +35,13 @@ Local venue references: [Tubatse Crossing](https://tubatsecrossingshopping.co.za
 
 Google Business Profile setup is a future task and will require the owner's Google account access and business verification.
 
-## Scroll-driven room tour
+## Cinematic property experience and room tours
 
-The Room tours section offers three scroll-controlled experiences. The two-bedroom rental contains 172 frames; the bachelor room tour contains 160 interior frames from the original walkthrough; the full-property tour contains 63 frames across three exterior angles. Frames load on demand as the visitor scrolls, and reduced-motion preferences show a static poster. The bachelor sequence follows the entry, kitchen, living area, bedroom, and bathroom without the exterior footage.
+The main accommodation story is a sticky, scroll-controlled walk through the real rooms, curated to 88 frames from the two-frames-per-second extraction of `IMG_4532.MOV`. Website chapters follow the camera from the kitchen and living area into the bedroom, with held views while visitors read. See [`TOUR-MANIFEST.md`](./public/images/experience/room-journey/TOUR-MANIFEST.md) for the sequence and chapter map.
 
-Open **Room tours** in the site navigation and select a tour. The section defaults to the two-bedroom rental. The full-property tour plays angle 1, the reverse-ordered angle 2, then angle 3. Its middle pass follows retained source frames 92 down to 70 in reverse order. Frame mapping and approved cuts are maintained in `src/app/tour-sequences.ts` and `PROJECT-TRACKER.md`.
+The Room tours section offers three scroll-controlled experiences. The two-bedroom rental contains 112 curated frames; the bachelor room tour contains 122 curated interior frames from the original walkthrough; the full-property tour contains 54 frames across three exterior angles. Frames load on demand as the visitor scrolls, and reduced-motion preferences show a static poster. The bachelor sequence follows the entry, kitchen, living area, bedroom, and bathroom without the exterior footage.
+
+Open **Room tours** in the site navigation and select a tour. The section opens with the full-property walkthrough selected. The full-property tour plays angle 1, the reverse-ordered angle 2, then angle 3. Its middle pass follows retained source frames 92 down to 76 in reverse order. Frame mapping and approved cuts are maintained in `src/app/tour-sequences.ts` and `PROJECT-TRACKER.md`.
 
 No upload was named `vid.mov`; the 5:51 `grootboom-farm-video.MOV` was treated as the intended original room-tour source. These are scroll-controlled views along recorded camera paths, not free-look 3D or 360-degree tours. Original HEIC and MOV uploads remain local and are ignored by Git; the website uses optimized WebP assets. A genuinely explorable 3D or Gaussian-splat tour will require suitable capture media.
 
@@ -47,11 +49,11 @@ Availability, online bookings, document signing, payment processing, invoicing, 
 
 ## Two-bedroom rental tour
 
-The 172-frame sequence is saved in `public/images/rentals/two-bedroom/tour-sequence/`. Its first 28 extracted frames were moved into the full-property tour as angle 3. The room tour starts with the remaining footage from `IMG_4552.MOV`, then continues through the living area, bedrooms, and bathroom. See [`TOUR-MANIFEST.md`](./public/images/rentals/two-bedroom/TOUR-MANIFEST.md) for its source map.
+The 112-frame sequence is saved in `public/images/rentals/two-bedroom/tour-sequence/`. The retained Angle 3 sequence uses 25 frames from the former two-bedroom exterior pass. The room tour uses the requested retained sections from all four source clips, with a new consecutive frame numbering for playback. See its manifest for the complete frame mapping and cuts. See [`TOUR-MANIFEST.md`](./public/images/rentals/two-bedroom/TOUR-MANIFEST.md) for its source map.
 
 ## Bachelor room tour
 
-The bachelor tour uses 160 retained interior frames from original source IDs above 94, stored in `public/images/rentals/bachelor/tour-sequence/`. Previously approved source-frame cuts remain in effect. See [`TOUR-MANIFEST.md`](./public/images/rentals/bachelor/TOUR-MANIFEST.md) for its scene ranges and source mapping.
+The bachelor tour uses 122 curated interior frames from original source IDs above 94, stored in `public/images/rentals/bachelor/tour-sequence/`. Previously approved source-frame cuts remain in effect. See [`TOUR-MANIFEST.md`](./public/images/rentals/bachelor/TOUR-MANIFEST.md) for its scene ranges and source mapping.
 
 The three full-property angles are organized under `public/images/tours/full-property/`; see its [tour manifest](./public/images/tours/full-property/TOUR-MANIFEST.md).
 

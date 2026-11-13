@@ -1,4 +1,5 @@
 import Image from "next/image";
+import CinematicExperience from "./cinematic-experience";
 import ScrollTour from "./scroll-tour";
 
 type IconName =
@@ -268,7 +269,14 @@ export default function Home() {
       </header>
 
       <main id="main">
-        <section aria-labelledby="hero-title" className="hero" id="home">
+        <CinematicExperience>
+        <section
+          aria-labelledby="hero-title"
+          className="hero"
+          data-cinematic-chapter
+          data-cinematic-label="A stay at your pace"
+          id="home"
+        >
           <div className="hero-inner page-shell">
             <div className="hero-copy">
               <p className="eyebrow">
@@ -360,7 +368,13 @@ export default function Home() {
           </div>
         </section>
 
-        <section aria-labelledby="stays-title" className="stays-section section-space" id="stays">
+        <section
+          aria-labelledby="stays-title"
+          className="stays-section section-space"
+          data-cinematic-chapter
+          data-cinematic-label="Find your stay"
+          id="stays"
+        >
           <div className="page-shell">
             <div className="section-heading">
               <div>
@@ -421,7 +435,13 @@ export default function Home() {
           </div>
         </section>
 
-        <section aria-labelledby="services-title" className="services-section section-space" id="services">
+        <section
+          aria-labelledby="services-title"
+          className="services-section section-space"
+          data-cinematic-chapter
+          data-cinematic-label="Settle in"
+          id="services"
+        >
           <div className="page-shell">
             <div className="services-heading">
               <p className="eyebrow eyebrow-light">THE LITTLE THINGS, TAKEN CARE OF</p>
@@ -456,9 +476,13 @@ export default function Home() {
           </div>
         </section>
 
-        <ScrollTour />
-
-        <section aria-labelledby="location-title" className="location-section section-space" id="location">
+        <section
+          aria-labelledby="location-title"
+          className="location-section section-space"
+          data-cinematic-chapter
+          data-cinematic-label="Find us and get in touch"
+          id="location"
+        >
           <div className="page-shell location-grid">
             <div className="location-copy">
               <p className="eyebrow eyebrow-light">
@@ -709,6 +733,8 @@ export default function Home() {
             </div>
           </section>
         </section>
+        </CinematicExperience>
+        <ScrollTour />
       </main>
 
       <footer className="site-footer">
