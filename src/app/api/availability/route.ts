@@ -13,7 +13,7 @@ export async function GET(request: Request) {
     return Response.json({ error: "Date ranges can be up to 366 days." }, { status: 400 });
   }
   const db = getServiceClient();
-  if (!db) return Response.json({ error: "Live availability is not configured yet." }, { status: 503 });
+  if (!db) return Response.json({ error: "Live room availability is not connected yet. Please contact J & J to confirm your dates." }, { status: 503 });
   const { data, error } = await db.rpc("get_room_availability", { p_room_type_slug: roomType, p_start_date: startDate, p_end_date: endDate });
   if (error) return Response.json({ error: "Availability is temporarily unavailable." }, { status: 503 });
   return Response.json({ availability: data }, { headers: { "Cache-Control": "no-store" } });

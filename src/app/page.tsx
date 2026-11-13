@@ -148,6 +148,8 @@ type StayOption = {
   description: string;
   highlights: string[];
   message: string;
+  bookingHref: string;
+  bookingLabel: string;
   featured?: boolean;
 };
 
@@ -160,6 +162,8 @@ const stays: StayOption[] = [
     description: "For a comfortable night in Steelpoort.",
     highlights: ["Fully furnished", "Daily cleaning", "Free Wi-Fi"],
     message: "Hello, I would like to enquire about the R850 overnight stay.",
+    bookingHref: "/book?stayPeriod=night",
+    bookingLabel: "Check overnight availability",
   },
   {
     number: "02",
@@ -169,6 +173,8 @@ const stays: StayOption[] = [
     description: "A furnished monthly bachelor option.",
     highlights: ["Monthly accommodation", "Daily cleaning", "Free Wi-Fi"],
     message: "Hello, I would like to enquire about the R7,500 monthly bachelor accommodation.",
+    bookingHref: "/book?roomType=bachelor&stayPeriod=month",
+    bookingLabel: "Book bachelor room",
     featured: true,
   },
   {
@@ -179,6 +185,8 @@ const stays: StayOption[] = [
     description: "Two-bedroom monthly accommodation.",
     highlights: ["Two-bedroom accommodation", "Daily cleaning", "Free Wi-Fi"],
     message: "Hello, I would like to enquire about the R13,500 monthly two-bedroom accommodation.",
+    bookingHref: "/book?roomType=two-bedroom&stayPeriod=month",
+    bookingLabel: "Book two-bedroom room",
   },
 ];
 
@@ -417,14 +425,19 @@ export default function Home() {
                       </li>
                     ))}
                   </ul>
-                  <a
-                    className={`button ${stay.featured ? "button-light" : "button-outline"}`}
-                    href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(stay.message)}`}
-                    rel="noreferrer"
-                    target="_blank"
-                  >
-                    Enquire about this stay <Icon name="arrow" />
-                  </a>
+                  <div className="stay-actions">
+                    <a className={`button stay-booking-button ${stay.featured ? "button-light" : "button-dark"}`} href={stay.bookingHref}>
+                      {stay.bookingLabel} <Icon name="arrow" />
+                    </a>
+                    <a
+                      className={`button stay-enquiry-button ${stay.featured ? "button-light" : "button-outline"}`}
+                      href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(stay.message)}`}
+                      rel="noreferrer"
+                      target="_blank"
+                    >
+                      Enquire about this stay <Icon name="arrow" />
+                    </a>
+                  </div>
                 </article>
               ))}
             </div>

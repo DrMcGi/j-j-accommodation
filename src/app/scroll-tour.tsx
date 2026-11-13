@@ -239,6 +239,8 @@ export default function ScrollTour() {
             Bachelor room
           </button>
         </div>
+        {selectedTour === "bachelor" && <div className="tour-booking-cta"><span aria-label="Bachelor rental: 7,500 rand per month">R7,500 <small>/ month</small></span><a href="/book?roomType=bachelor&stayPeriod=month">Book bachelor room</a></div>}
+        {selectedTour === "two-bedroom" && <div className="tour-booking-cta"><span aria-label="Two-bedroom rental: 13,500 rand per month">R13,500 <small>/ month</small></span><a href="/book?roomType=two-bedroom&stayPeriod=month">Book two-bedroom room</a></div>}
         <p className="tour-selector-note">
           Choose a rental tour to follow its own recorded route through the
           property or room.
