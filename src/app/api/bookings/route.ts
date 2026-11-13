@@ -42,8 +42,23 @@ export async function POST(request: Request) {
   });
 
   if (error) {
-    const status = error.code === "P0001" ? 409 : error.code === "22023" ? 400 : 503;
-    return Response.json({ error: status === 503 ? "We could not complete the reservation. Please try again shortly." : error.message }, { status });
+    console.error("Automatic reservation database function failed", {
+      code: error.code,
+      message: error.message,
+      details: error.details,
+      hint: error.hint,
+    });
+    const status = error.code === "P0001" || error.code === "23P01" ? 409 : error.code === "22023" ? 400 : 503;
+    const message = error.code === "PGRST202" || error.code === "42883"
+      ? "The automatic reservation function is missing from the database. Confirm that the complete automatic reservations migration was applied."
+      : error.code === "42501"
+        ? "The reservation could not be authorized. Sign in again and retry; if it continues, ask the administrator to check the reservation database permissions."
+        : error.code === "42P01" || error.code === "42703"
+          ? "The reservation database update is incomplete. Recheck the automatic reservations migration in Supabase."
+          : status === 503
+            ? `The reservation database could not complete this request (reference ${error.code ?? "unknown"}). Please retry once; if it continues, send this reference to support.`
+            : error.message;
+    return Response.json({ error: message, reference: error.code ?? "unknown" }, { status });
   }
 
   const booking = data?.[0];
